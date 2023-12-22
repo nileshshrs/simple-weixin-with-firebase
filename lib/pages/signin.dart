@@ -1,5 +1,6 @@
 import 'package:firebase_chat_application/pages/home.dart';
 import 'package:firebase_chat_application/services/auth_service.dart';
+import 'package:firebase_chat_application/services/sharedpreferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_chat_application/pages/register.dart';
 
@@ -24,8 +25,11 @@ class _SigninState extends State<Signin> {
         password: _passwordController.text,
       );
 
+      Map<String, String?> userData = await SharedPreferencesService.getUserData();
+      print(userData) ;
+      print('User logged in successfully:');
       // Navigate to the home screen or any other screen
-      print('Login successful! User UID: $uid');
+      // print('Login successful! User UID: $uid');
       Navigator.pushReplacementNamed(context, Home.routeName);
     } catch (error) {
       // Handle errors, show messages, etc.

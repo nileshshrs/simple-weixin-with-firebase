@@ -44,8 +44,9 @@ class _RegistrationState extends State<Registration> {
     } catch (error) {
       // Handle registration errors
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error during registration: $error")),
+        SnackBar(content: Text("Email already in use")),
       );
+      throw error;
     }
   }
 
