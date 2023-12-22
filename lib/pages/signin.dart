@@ -24,9 +24,11 @@ class _SigninState extends State<Signin> {
         email: _emailController.text,
         password: _passwordController.text,
       );
-
+      print("fetching the saved user credentials from storage");
       Map<String, String?> userData = await SharedPreferencesService.getUserData();
+
       print(userData) ;
+      print("fetched userdata succesfully from the storage");
       print('User logged in successfully:');
       // Navigate to the home screen or any other screen
       // print('Login successful! User UID: $uid');
