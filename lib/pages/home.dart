@@ -1,10 +1,11 @@
-import 'package:firebase_chat_application/Routes/RouteGenerator.dart';
 import 'package:firebase_chat_application/pages/chat_list_page.dart';
 import 'package:firebase_chat_application/pages/contact_page.dart';
+import 'package:firebase_chat_application/pages/signin.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
+  static const String routeName = "/home";
 
   @override
   _HomeState createState() => _HomeState();
@@ -12,31 +13,25 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int selectedIndex = 0;
+  late Widget currentPage;
+
+  @override
+  void initState() {
+    super.initState();
+    // Set the initial page
+    currentPage = const ChatListPage();
+  }
 
   @override
   Widget build(BuildContext context) {
     // Custom color that is very subtle off-white
     Color customLightGrey = Color(0xFFFFFCFC);
 
-    Widget currentPage;
-
-    switch (selectedIndex) {
-      case 0:
-        currentPage = const ChatListPage();
-        break;
-      case 1:
-        currentPage = const ContactPage();
-        break;
-      default:
-        currentPage = const SizedBox.shrink();
-        break;
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text('Weixin')),
-        backgroundColor: customLightGrey, // Custom very subtle off-white color
-        elevation: 1, // Adding box shadow
+        backgroundColor: customLightGrey,
+        elevation: 1,
         actions: [
           IconButton(
             icon: Icon(Icons.search),
@@ -49,7 +44,7 @@ class _HomeState extends State<Home> {
       body: currentPage,
       bottomNavigationBar: BottomNavigationBar(
         elevation: 3,
-        backgroundColor: customLightGrey, // Set the same background color
+        backgroundColor: customLightGrey,
         items: [
           BottomNavigationBarItem(
             icon: Icon(IconData(0xf3fb,
@@ -72,12 +67,13 @@ class _HomeState extends State<Home> {
           // Handle navigation based on index
           switch (index) {
             case 0:
-              Navigator.pushNamed(context, RouteGenerator.chatListRoute);
+              currentPage = const ChatListPage();
               break;
             case 1:
-              Navigator.pushNamed(context, RouteGenerator.contactRoute);
+              currentPage = const ContactPage();
               break;
             default:
+              currentPage = const SizedBox.shrink();
               break;
           }
         },

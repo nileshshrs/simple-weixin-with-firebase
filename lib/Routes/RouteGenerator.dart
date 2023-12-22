@@ -1,3 +1,4 @@
+import 'package:firebase_chat_application/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_chat_application/pages/signin.dart';
 import 'package:firebase_chat_application/pages/register.dart';
@@ -5,8 +6,6 @@ import 'package:firebase_chat_application/pages/chat_list_page.dart';
 import 'package:firebase_chat_application/pages/contact_page.dart';
 
 class RouteGenerator {
-  static const String signinRoute = '/signin';
-  static const String registrationRoute = '/registration';
   static const String chatListRoute = '/chatList';
   static const String contactRoute = '/contact';
 
@@ -14,11 +13,14 @@ class RouteGenerator {
     final arg = settings.arguments;
 
     switch (settings.name) {
-      case signinRoute:
+      case Signin.routeName:
         return MaterialPageRoute(builder: (_) => const Signin());
 
-      case registrationRoute:
+      case Registration.routeName:
         return MaterialPageRoute(builder: (_) => const Registration());
+
+      case Home.routeName:
+        return MaterialPageRoute(builder: (_) => const Home());
 
       case chatListRoute:
         return MaterialPageRoute(builder: (_) => const ChatListPage());

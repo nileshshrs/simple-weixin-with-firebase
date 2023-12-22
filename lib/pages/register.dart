@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_chat_application/services/auth_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -22,39 +24,68 @@ class _RegistrationState extends State<Registration> {
 
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
-
+  final AuthService _authService = AuthService();
   signup() async {
     try {
-      // Check if the email is already registered
-      List<String> signInMethods =
-      await FirebaseAuth.instance.fetchSignInMethodsForEmail(_emailController.text);
-
-      if (signInMethods.isNotEmpty) {
-        // The email is already registered, show an error message
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("This email is already registered. Please use a different email.")),
+      setState(() {
+        _autovalidateMode = AutovalidateMode.onUserInteraction;
+      });
+      if (_formKey.currentState!.validate()) {
+        await _authService.signup(
+          username: _usernameController.text,
+          email: _emailController.text,
+          password: _passwordController.text,
         );
-      } else {
-        // The email is not registered, proceed with registration
-        UserCredential userCredential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-            email: _emailController.text, password: _passwordController.text);
 
-        // Registration successful
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Registered successfully!")),
         );
       }
     } catch (error) {
       // Handle registration errors
-      print("Error during registration: $error");
-
-      // You can display an error message to the user using a SnackBar
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("email already exists")),
+        SnackBar(content: Text("Error during registration: $error")),
       );
     }
   }
+
+  // signup() async {
+  //   try {
+  //     // Check if the email is already registered
+  //     List<String> signInMethods =
+  //     await FirebaseAuth.instance.fetchSignInMethodsForEmail(_emailController.text);
+  //
+  //     if (signInMethods.isNotEmpty) {
+  //       // The email is already registered, show an error message
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text("This email is already registered. Please use a different email.")),
+  //       );
+  //     } else {
+  //       // The email is not registered, proceed with registration
+  //       UserCredential userCredential = await FirebaseAuth.instance
+  //           .createUserWithEmailAndPassword(
+  //           email: _emailController.text, password: _passwordController.text);
+  //
+  //       // Registration successful
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text("Registered successfully!")),
+  //       );
+  //       // Use userCredential to create the collection
+  //       await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+  //         'username': _usernameController.text,
+  //         'email': _emailController.text,
+  //       });
+  //     }
+  //   } catch (error) {
+  //     // Handle registration errors
+  //     print("Error during registration: $error");
+  //
+  //     // You can display an error message to the user using a SnackBar
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text("email already exists")),
+  //     );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

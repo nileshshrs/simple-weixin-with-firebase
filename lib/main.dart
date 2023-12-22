@@ -23,14 +23,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-        // initialRoute: Signin.routeName,
-        // onGenerateRoute: RouteGenerator.onGenerate,
+        initialRoute: Signin.routeName,
+        onGenerateRoute: RouteGenerator.onGenerate,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
 
       ),
-      home: Registration(),
+      // home: Registration(),
     );
   }
 }

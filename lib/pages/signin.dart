@@ -1,3 +1,5 @@
+import 'package:firebase_chat_application/pages/home.dart';
+import 'package:firebase_chat_application/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_chat_application/pages/register.dart';
 
@@ -11,8 +13,25 @@ class Signin extends StatefulWidget {
 
 class _SigninState extends State<Signin> {
   bool _isPasswordVisible = false;
-  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  AuthService _authService = AuthService();
+
+  Future<void> _login() async {
+    try {
+      String uid = await _authService.login(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      // Navigate to the home screen or any other screen
+      print('Login successful! User UID: $uid');
+      Navigator.pushReplacementNamed(context, Home.routeName);
+    } catch (error) {
+      // Handle errors, show messages, etc.
+      print('Login failed: $error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +116,7 @@ class _SigninState extends State<Signin> {
                                   children: [
                                     Expanded(
                                       child: TextField(
-                                        controller: _usernameController,
+                                        controller: _emailController,
                                         decoration: InputDecoration(
                                           labelText: 'email',
                                           labelStyle: TextStyle(
@@ -142,7 +161,7 @@ class _SigninState extends State<Signin> {
                                       onTap: () {
                                         setState(() {
                                           _isPasswordVisible =
-                                          !_isPasswordVisible;
+                                              !_isPasswordVisible;
                                         });
                                       },
                                       child: Icon(
@@ -176,9 +195,9 @@ class _SigninState extends State<Signin> {
                                 width: double.infinity,
                                 child: OutlinedButton(
                                   onPressed: () {
+                                    _login();
                                     // Print the username and password
-                                    print(
-                                        "Username: ${_usernameController.text}");
+                                    print("Username: ${_emailController.text}");
                                     print(
                                         "Password: ${_passwordController.text}");
                                   },
@@ -202,7 +221,6 @@ class _SigninState extends State<Signin> {
                           ),
                         ),
                       ),
-
                       SizedBox(height: 16),
                       SizedBox(height: 16),
                       Center(
