@@ -34,8 +34,11 @@ class AuthService {
             .collection('users')
             .doc(userCredential.user!.uid)
             .set({
+          'id': userCredential.user!.uid,
           'username': username,
           'email': email,
+          'created at': FieldValue.serverTimestamp(),
+          'image': "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiUKap2O1u-ulRZ8icnJXKFmL5d4NuVBX6goF1ZGvwUw&s"
         });
       }
     } catch (error) {
@@ -83,9 +86,12 @@ class AuthService {
         String userID = uid;
         String username = user['username'];
         String userEmail = user['email'];
+        Timestamp createdAtTimestamp = user['created at'] as Timestamp;
+        String createdAt = createdAtTimestamp.toDate().toString();
+        String image = user['image'];
 
         print("saving user credentials in storage");
-        SharedPreferencesService.saveUserData(userID, username, userEmail);
+        SharedPreferencesService.saveUserData(userID, username, userEmail, createdAt, image);
         print("...");
         print("saved user credentials in storage.");
         // Print user data

@@ -43,13 +43,16 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
-  void navigateToProfilePage(String username, String email) {
+  void navigateToProfilePage(String username, String email, String id, String image, Timestamp createdAt) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ProfilePage(
           username: username,
           email: email,
+          id: id,
+          image: image,
+          createdAt: createdAt,
         ),
       ),
     );
@@ -143,6 +146,9 @@ class _SearchPageState extends State<SearchPage> {
                   navigateToProfilePage(
                     user['username'],
                     user['email'],
+                    user['id'],
+                    user['image'],
+                    user['created at']
                   );
                 },
               );
