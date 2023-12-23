@@ -1,4 +1,6 @@
+import 'package:firebase_chat_application/pages/home.dart';
 import 'package:firebase_chat_application/pages/register.dart';
+import 'package:firebase_chat_application/pages/search.dart';
 import 'package:firebase_chat_application/pages/signin.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -23,14 +25,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-        initialRoute: Signin.routeName,
+        initialRoute: Home.routeName,
         onGenerateRoute: RouteGenerator.onGenerate,
+
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
 
       ),
-      // home: Registration(),
+      // home: Home(),
     );
   }
 }

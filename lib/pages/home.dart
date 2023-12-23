@@ -1,5 +1,6 @@
 import 'package:firebase_chat_application/pages/chat_list_page.dart';
 import 'package:firebase_chat_application/pages/contact_page.dart';
+import 'package:firebase_chat_application/pages/search.dart';
 import 'package:firebase_chat_application/pages/signin.dart';
 import 'package:firebase_chat_application/services/sharedpreferences_service.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,7 @@ class _HomeState extends State<Home> {
             icon: Icon(Icons.search),
             onPressed: () {
               // Handle search button press
+              Navigator.pushReplacementNamed(context, SearchPage.routeName);
             },
           ),
           IconButton(

@@ -1,4 +1,5 @@
 import 'package:firebase_chat_application/pages/home.dart';
+import 'package:firebase_chat_application/pages/search.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_chat_application/pages/signin.dart';
 import 'package:firebase_chat_application/pages/register.dart';
@@ -18,6 +19,9 @@ class RouteGenerator {
 
       case Registration.routeName:
         return MaterialPageRoute(builder: (_) => const Registration());
+
+      case SearchPage.routeName:
+        return MaterialPageRoute(builder: (_)=> const SearchPage());
 
       case Home.routeName:
         return MaterialPageRoute(builder: (_) => const Home());
