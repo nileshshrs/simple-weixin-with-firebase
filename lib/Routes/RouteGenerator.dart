@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_chat_application/pages/signin.dart';
 import 'package:firebase_chat_application/pages/register.dart';
 import 'package:firebase_chat_application/pages/chat_list_page.dart';
-import 'package:firebase_chat_application/pages/contact_page.dart';
+import 'package:firebase_chat_application/pages/userprofile_page.dart';
 
 class RouteGenerator {
   static const String chatListRoute = '/chatList';
-  static const String contactRoute = '/contact';
+  static const String contactRoute = '/userprofile';
 
   static Route<dynamic>? onGenerate(RouteSettings settings) {
     final arg = settings.arguments;
@@ -30,7 +30,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ChatListPage());
 
       case contactRoute:
-        return MaterialPageRoute(builder: (_) => const ContactPage());
+        return MaterialPageRoute(builder: (_) => const UserProfilePage());
 
       default:
         return _onPageNotFound();

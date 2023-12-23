@@ -1,5 +1,5 @@
 import 'package:firebase_chat_application/pages/chat_list_page.dart';
-import 'package:firebase_chat_application/pages/contact_page.dart';
+import 'package:firebase_chat_application/pages/userprofile_page.dart';
 import 'package:firebase_chat_application/pages/search.dart';
 import 'package:firebase_chat_application/pages/signin.dart';
 import 'package:firebase_chat_application/services/sharedpreferences_service.dart';
@@ -69,8 +69,8 @@ class _HomeState extends State<Home> {
             label: 'Chat',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.group),
-            label: 'Contact',
+            icon: Icon(Icons.person),
+            label: 'Profile',
           ),
         ],
         currentIndex: selectedIndex,
@@ -87,7 +87,7 @@ class _HomeState extends State<Home> {
               currentPage = const ChatListPage();
               break;
             case 1:
-              currentPage = const ContactPage();
+              currentPage = const UserProfilePage();
               break;
             default:
               currentPage = const SizedBox.shrink();
