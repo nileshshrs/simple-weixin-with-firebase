@@ -87,7 +87,7 @@ class AuthService {
         String username = user['username'];
         String userEmail = user['email'];
         Timestamp createdAtTimestamp = user['created at'] as Timestamp;
-        String createdAt = createdAtTimestamp.toDate().toString();
+        DateTime createdAt = createdAtTimestamp.toDate();
         String image = user['image'];
 
         print("saving user credentials in storage");

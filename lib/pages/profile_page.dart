@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_chat_application/services/sharedpreferences_service.dart';
+import 'package:firebase_chat_application/services/chat_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_chat_application/pages/home.dart';
-import 'chat_screen.dart'; // Import the ChatScreen
 import 'package:intl/intl.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -26,22 +25,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  void _sendMessage() async {
-    Map<String, String?> userData = await SharedPreferencesService.getUserData();
-
-    print(userData);
-    // Navigate to the ChatScreen when the "Send Message" button is tapped
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ChatScreen(
-          // Pass necessary parameters to identify the recipient
-          recipientUsername: widget.username,
-          recipientEmail: widget.email,
-        ),
-      ),
-    );
-  }
+  final ChatService _chatService = ChatService();
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +109,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(horizontal: 0),
                   child: ElevatedButton(
-                    onPressed: _sendMessage,
+                    onPressed:() async{
+                      String receiverId = widget.id;
+                      String receiverUsername = widget.username;
+
+                      await _chatService.createChatRoom(receiverId, receiverUsername);
+                    }
+                    ,
                     style: ElevatedButton.styleFrom(
                       elevation: 0, // Set elevation to 0 to make it flat
                       primary: Colors.white,

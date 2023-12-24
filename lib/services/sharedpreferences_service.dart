@@ -1,15 +1,19 @@
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesService {
   static Future<void> saveUserData(String userID, String username, String email,
-      String createdAt, String image) async {
+      DateTime createdAt, String image) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Format createdAt as a string
+    String formattedCreatedAt = DateFormat('yyyy-MM-dd HH:mm:ss').format(createdAt);
 
     // Store user data in shared preferences
     prefs.setString('id', userID);
     prefs.setString('username', username);
     prefs.setString('email', email);
-    prefs.setString('created at', createdAt);
+    prefs.setString('created at', formattedCreatedAt);
     prefs.setString('image', image);
   }
 
@@ -29,6 +33,6 @@ class SharedPreferencesService {
   static Future<void> clearUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
-    print("clearing user data from the storage");
+    print("Clearing user data from storage");
   }
 }
