@@ -38,7 +38,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                   .collection('chat_rooms')
                   .doc(widget.chatRoomId)
                   .collection('messages')
-                  .orderBy('timestamp', descending: false)
+                  .orderBy('timestamp', descending: true)
                   .snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
@@ -52,6 +52,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                 }).toList();
 
                 return ListView.builder(
+                  reverse:true,
                   controller: _scrollController,
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
