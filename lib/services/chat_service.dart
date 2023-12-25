@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_chat_application/pages/chat_page.dart';
 import 'package:firebase_chat_application/services/sharedpreferences_service.dart';
 
 class ChatService {
-  Future<void> createChatRoom(String otherUserId, String otherUsername) async {
+  Future<String> createChatRoom(String otherUserId, String otherUsername) async {
     try {
       Map<String, String?> loggedInUserData = await SharedPreferencesService.getUserData();
       String? loggedInUserId = loggedInUserData['id'];
@@ -28,7 +30,7 @@ class ChatService {
             'user_names': [loggedInUsername, otherUsername],
             'last_message': {
               'content': 'Chat started',
-              'sender': loggedInUserId,
+              'sender': loggedInUsername,
               'timestamp': FieldValue.serverTimestamp(),
             },
             'created_at': FieldValue.serverTimestamp(),
@@ -40,12 +42,18 @@ class ChatService {
               .doc(chatRoomId)
               .collection('messages')
               .add({
-            'content': 'Chat started',
-            'sender': loggedInUserId,
+            'content': 'Lets chat !',
+            'sender': loggedInUsername,
             'timestamp': FieldValue.serverTimestamp(),
           });
 
           print("Chat room created");
+
+          return chatRoomId; // Return the chat room ID
+        } else {
+          // Return a default value if the chat room already exists
+          print("chat room with $chatRoomId already exists");
+          return chatRoomId; // You can use an empty string or another default value
         }
       } else {
         throw 'User ID or username not found in shared preferences';
@@ -54,7 +62,6 @@ class ChatService {
       throw 'Error creating chat room: $error';
     }
   }
-
   String constructChatRoomId(String userId1, String userId2) {
     List<String> sortedUserIds = [userId1, userId2]..sort();
     return '${sortedUserIds[0]}_${sortedUserIds[1]}';

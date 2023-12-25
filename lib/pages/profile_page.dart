@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_chat_application/pages/chat_page.dart';
 import 'package:firebase_chat_application/services/chat_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_chat_application/pages/home.dart';
@@ -113,8 +114,16 @@ class _ProfilePageState extends State<ProfilePage> {
                       String receiverId = widget.id;
                       String receiverUsername = widget.username;
 
-                      await _chatService.createChatRoom(receiverId, receiverUsername);
+                     String chatRoomId= await _chatService.createChatRoom(receiverId, receiverUsername);
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatRoomPage(chatRoomId: chatRoomId),
+                        ),
+                      );
                     }
+
                     ,
                     style: ElevatedButton.styleFrom(
                       elevation: 0, // Set elevation to 0 to make it flat
