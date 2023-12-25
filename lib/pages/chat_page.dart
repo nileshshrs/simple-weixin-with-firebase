@@ -15,7 +15,6 @@ class ChatRoomPage extends StatefulWidget {
 
 class _ChatRoomPageState extends State<ChatRoomPage> {
   final TextEditingController _messageController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
 
   String loggedInUserId = '';
   String loggedInUsername = '';
@@ -53,7 +52,6 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
 
                 return ListView.builder(
                   reverse:true,
-                  controller: _scrollController,
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
                     return ListTile(
@@ -140,17 +138,33 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                     controller: _messageController,
                     decoration: InputDecoration(
                       hintText: 'Type a message...',
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green), // Set the border color
+                      ),
                     ),
                   ),
                 ),
-                IconButton(
-                  icon: Icon(Icons.send),
+                SizedBox(width: 10), // Add some spacing between the TextField and the button
+                ElevatedButton(
                   onPressed: () {
                     sendMessage();
                   },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green, // Set the button background color
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero, // Set the button shape (rectangular)
+                    ),
+                  ),
+                  child: Text(
+                    'Send',
+                    style: TextStyle(
+                      color: Colors.white, // Set the text color
+                    ),
+                  ),
                 ),
               ],
             ),
+
           ),
         ],
       ),
@@ -158,11 +172,12 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
   }
 
   String formatDate(String timestamp) {
-    DateTime dateTime = DateTime.parse(timestamp);
+    DateTime dateTime = DateTime.tryParse(timestamp) ?? DateTime.now(); // Use DateTime.now() as a default value
     String formattedDate =
         '${dateTime.day.toString().padLeft(2, '0')}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.year.toString().substring(2)} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
     return formattedDate;
   }
+
 
   void sendMessage() {
     String content = _messageController.text.trim();
@@ -187,11 +202,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
       });
 
       _messageController.clear();
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
+
     }
   }
 
