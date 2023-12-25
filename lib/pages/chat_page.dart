@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_chat_application/services/sharedpreferences_service.dart';
 import 'package:intl/intl.dart';
 
-
 class ChatRoomPage extends StatefulWidget {
   final String chatRoomId;
 
@@ -51,19 +50,21 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                 }).toList();
 
                 return ListView.builder(
-                  reverse:true,
+                  reverse: true,
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
                     return ListTile(
                       title: Column(
-                        crossAxisAlignment: messages[index].sender == loggedInUsername
-                            ? CrossAxisAlignment.end
-                            : CrossAxisAlignment.start,
+                        crossAxisAlignment:
+                            messages[index].sender == loggedInUsername
+                                ? CrossAxisAlignment.end
+                                : CrossAxisAlignment.start,
                         children: [
                           Row(
-                            mainAxisAlignment: messages[index].sender == loggedInUsername
-                                ? MainAxisAlignment.end
-                                : MainAxisAlignment.start,
+                            mainAxisAlignment:
+                                messages[index].sender == loggedInUsername
+                                    ? MainAxisAlignment.end
+                                    : MainAxisAlignment.start,
                             children: [
                               Text(
                                 messages[index].sender,
@@ -80,35 +81,38 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                               color: messages[index].sender == loggedInUsername
                                   ? Colors.green
                                   : Colors.white,
-                              borderRadius: messages[index].sender == loggedInUsername
-                                  ? BorderRadius.only(
-                                topLeft: Radius.circular(8),
-                                bottomLeft: Radius.circular(8),
-                                bottomRight: Radius.circular(8),
-                              )
-                                  : BorderRadius.only(
-                                topRight: Radius.circular(8),
-                                bottomLeft: Radius.circular(8),
-                                bottomRight: Radius.circular(8),
-                              ),
-                              boxShadow: messages[index].sender == loggedInUsername
-                                  ? [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 2,
-                                  offset: Offset(0, 2),
-                                ),
-                              ]
-                                  : [],
+                              borderRadius:
+                                  messages[index].sender == loggedInUsername
+                                      ? BorderRadius.only(
+                                          topLeft: Radius.circular(8),
+                                          bottomLeft: Radius.circular(8),
+                                          bottomRight: Radius.circular(8),
+                                        )
+                                      : BorderRadius.only(
+                                          topRight: Radius.circular(8),
+                                          bottomLeft: Radius.circular(8),
+                                          bottomRight: Radius.circular(8),
+                                        ),
+                              boxShadow:
+                                  messages[index].sender == loggedInUsername
+                                      ? [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 1,
+                                            blurRadius: 2,
+                                            offset: Offset(0, 2),
+                                          ),
+                                        ]
+                                      : [],
                             ),
                             padding: EdgeInsets.all(8),
                             child: Text(
                               messages[index].content,
                               style: TextStyle(
-                                color: messages[index].sender == loggedInUsername
-                                    ? Colors.white
-                                    : Colors.black,
+                                color:
+                                    messages[index].sender == loggedInUsername
+                                        ? Colors.white
+                                        : Colors.black,
                               ),
                             ),
                           ),
@@ -123,7 +127,6 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                         ],
                       ),
                     );
-
                   },
                 );
               },
@@ -138,13 +141,21 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                     controller: _messageController,
                     decoration: InputDecoration(
                       hintText: 'Type a message...',
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                            color:
+                                Colors.green), // Set the default border color
+                      ),
                       focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green), // Set the border color
+                        borderSide: BorderSide(
+                            color: Colors.green), // Set the border color
                       ),
                     ),
                   ),
                 ),
-                SizedBox(width: 10), // Add some spacing between the TextField and the button
+                SizedBox(
+                    width:
+                        10), // Add some spacing between the TextField and the button
                 ElevatedButton(
                   onPressed: () {
                     sendMessage();
@@ -152,7 +163,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                   style: ElevatedButton.styleFrom(
                     primary: Colors.green, // Set the button background color
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero, // Set the button shape (rectangular)
+                      borderRadius: BorderRadius
+                          .zero, // Set the button shape (rectangular)
                     ),
                   ),
                   child: Text(
@@ -164,7 +176,6 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                 ),
               ],
             ),
-
           ),
         ],
       ),
@@ -172,12 +183,12 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
   }
 
   String formatDate(String timestamp) {
-    DateTime dateTime = DateTime.tryParse(timestamp) ?? DateTime.now(); // Use DateTime.now() as a default value
+    DateTime dateTime = DateTime.tryParse(timestamp) ??
+        DateTime.now(); // Use DateTime.now() as a default value
     String formattedDate =
         '${dateTime.day.toString().padLeft(2, '0')}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.year.toString().substring(2)} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
     return formattedDate;
   }
-
 
   void sendMessage() {
     String content = _messageController.text.trim();
@@ -202,7 +213,6 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
       });
 
       _messageController.clear();
-
     }
   }
 
@@ -214,7 +224,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
 
   void fetchUsernames() async {
     try {
-      Map<String, String?> loggedInUserData = await SharedPreferencesService.getUserData();
+      Map<String, String?> loggedInUserData =
+          await SharedPreferencesService.getUserData();
       loggedInUserId = loggedInUserData['id'] ?? '';
       loggedInUsername = loggedInUserData['username'] ?? '';
 
@@ -229,7 +240,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
 
         if (userIDs.length == 2 && usernames.length == 2) {
           otherUserId = userIDs.firstWhere((id) => id != loggedInUserId);
-          otherUsername = usernames.firstWhere((username) => username != loggedInUsername);
+          otherUsername =
+              usernames.firstWhere((username) => username != loggedInUsername);
 
           setState(() {});
         }
@@ -260,5 +272,4 @@ class Message {
           : '',
     );
   }
-
 }
