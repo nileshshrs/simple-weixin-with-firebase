@@ -206,6 +206,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
             .collection('chat_rooms')
             .doc(widget.chatRoomId)
             .update({
+          'created_at':FieldValue.serverTimestamp(),
           'last_message.content': content,
           'last_message.sender': loggedInUsername,
           'last_message.timestamp': FieldValue.serverTimestamp(),
