@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_chat_application/services/sharedpreferences_service.dart';
+import 'package:intl/intl.dart';
+
 
 class ChatRoomPage extends StatefulWidget {
   final String chatRoomId;
@@ -15,8 +17,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
-  String loggedInUserId = ''; // Updated to use SharedPreferencesService
-  String loggedInUsername = ''; // Updated to use SharedPreferencesService
+  String loggedInUserId = '';
+  String loggedInUsername = '';
   String otherUserId = '';
   String otherUsername = '';
 
@@ -24,8 +26,10 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat Room'),
+        title: Text(otherUsername),
+        backgroundColor: Color(0xFFEDEDED),
       ),
+      backgroundColor: Color(0xFFEDEDED),
       body: Column(
         children: [
           Expanded(
@@ -52,15 +56,75 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title: Text(messages[index].content),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      title: Column(
+                        crossAxisAlignment: messages[index].sender == loggedInUsername
+                            ? CrossAxisAlignment.end
+                            : CrossAxisAlignment.start,
                         children: [
-                            Text(messages[index].sender, style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text(messages[index].timestamp),
+                          Row(
+                            mainAxisAlignment: messages[index].sender == loggedInUsername
+                                ? MainAxisAlignment.end
+                                : MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                messages[index].sender,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * (2 / 3),
+                            decoration: BoxDecoration(
+                              color: messages[index].sender == loggedInUsername
+                                  ? Colors.green
+                                  : Colors.white,
+                              borderRadius: messages[index].sender == loggedInUsername
+                                  ? BorderRadius.only(
+                                topLeft: Radius.circular(8),
+                                bottomLeft: Radius.circular(8),
+                                bottomRight: Radius.circular(8),
+                              )
+                                  : BorderRadius.only(
+                                topRight: Radius.circular(8),
+                                bottomLeft: Radius.circular(8),
+                                bottomRight: Radius.circular(8),
+                              ),
+                              boxShadow: messages[index].sender == loggedInUsername
+                                  ? [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 2,
+                                  offset: Offset(0, 2),
+                                ),
+                              ]
+                                  : [],
+                            ),
+                            padding: EdgeInsets.all(8),
+                            child: Text(
+                              messages[index].content,
+                              style: TextStyle(
+                                color: messages[index].sender == loggedInUsername
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            formatDate(messages[index].timestamp),
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 13,
+                            ),
+                          ),
                         ],
                       ),
                     );
+
                   },
                 );
               },
@@ -92,6 +156,13 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
     );
   }
 
+  String formatDate(String timestamp) {
+    DateTime dateTime = DateTime.parse(timestamp);
+    String formattedDate =
+        '${dateTime.day.toString().padLeft(2, '0')}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.year.toString().substring(2)} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
+    return formattedDate;
+  }
+
   void sendMessage() {
     String content = _messageController.text.trim();
     if (content.isNotEmpty) {
@@ -104,13 +175,12 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
         'sender': loggedInUsername,
         'timestamp': FieldValue.serverTimestamp(),
       }).then((_) {
-        // Update the last_message field in the chat_rooms collection after sending a new message
         FirebaseFirestore.instance
             .collection('chat_rooms')
             .doc(widget.chatRoomId)
             .update({
           'last_message.content': content,
-          'last_message.sender': loggedInUserId,
+          'last_message.sender': loggedInUsername,
           'last_message.timestamp': FieldValue.serverTimestamp(),
         });
       });
@@ -127,7 +197,6 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
   @override
   void initState() {
     super.initState();
-    // Fetch the usernames when the widget is initialized
     fetchUsernames();
   }
 
@@ -150,7 +219,6 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
           otherUserId = userIDs.firstWhere((id) => id != loggedInUserId);
           otherUsername = usernames.firstWhere((username) => username != loggedInUsername);
 
-          // Display the other user's username
           setState(() {});
         }
       }
@@ -175,9 +243,10 @@ class Message {
     return Message(
       content: map['content'] ?? '',
       sender: map['sender'] ?? '',
-      timestamp: map['timestamp'] != null
+      timestamp: map['timestamp'] is Timestamp
           ? (map['timestamp'] as Timestamp).toDate().toString()
           : '',
     );
   }
+
 }
