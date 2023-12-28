@@ -19,27 +19,30 @@ class _SigninState extends State<Signin> {
   TextEditingController _passwordController = TextEditingController();
   AuthService _authService = AuthService();
 
-  Future<void> _login() async {
+  Future<void> _login(BuildContext context) async {
     try {
+      LoadingDialog.showLoadingDialog(context, 'Logging in...');
       String uid = await _authService.login(
         email: _emailController.text,
         password: _passwordController.text,
       );
-      print("fetching the saved user credentials from storage");
-      Map<String, String?> userData = await SharedPreferencesService.getUserData();
 
-      print(userData) ;
-      print("fetched userdata succesfully from the storage");
+      // Fetch user data after successful login
+      Map<String, String?> userData = await SharedPreferencesService.getUserData();
+      LoadingDialog.hideLoadingDialog(context); // Hide the loading dialog
+
+      print(userData);
       print('User logged in successfully:');
-      // Navigate to the home screen or any other screen
-      // print('Login successful! User UID: $uid');
       Navigator.pushReplacementNamed(context, Home.routeName);
     } catch (error) {
-      // Handle errors, show messages, etc.
+      // Hide the loading dialog in case of login failure
+      LoadingDialog.hideLoadingDialog(context);
+
       print('Login failed: $error');
       _showFlushbar("Incorrect email or password", false);
     }
   }
+
   void _showFlushbar(String message, bool isSuccess) {
     Flushbar(
       message: message,
@@ -111,7 +114,6 @@ class _SigninState extends State<Signin> {
                         ),
                       ),
                       SizedBox(height: 30),
-                      SizedBox(height: 20),
                       Material(
                         elevation: 5.0,
                         borderRadius: BorderRadius.circular(10),
@@ -188,7 +190,7 @@ class _SigninState extends State<Signin> {
                                       onTap: () {
                                         setState(() {
                                           _isPasswordVisible =
-                                              !_isPasswordVisible;
+                                          !_isPasswordVisible;
                                         });
                                       },
                                       child: Icon(
@@ -222,7 +224,7 @@ class _SigninState extends State<Signin> {
                                 width: double.infinity,
                                 child: OutlinedButton(
                                   onPressed: () {
-                                    _login();
+                                    _login(context);
                                     // Print the username and password
                                     print("Username: ${_emailController.text}");
                                     print(

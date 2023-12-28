@@ -43,9 +43,10 @@ class _RegistrationState extends State<Registration> {
     )..show(context);
   }
 
-
   signup() async {
     try {
+      LoadingDialog.showLoadingDialog(context, 'Registering...');
+
       setState(() {
         _autovalidateMode = AutovalidateMode.onUserInteraction;
       });
@@ -56,6 +57,8 @@ class _RegistrationState extends State<Registration> {
           password: _passwordController.text,
         );
 
+        LoadingDialog.hideLoadingDialog(context);
+
         _showFlushbar("Registered successfully!", true);
         Future.delayed(Duration(seconds: 5), () {
           Navigator.pushReplacementNamed(context, Signin.routeName);
@@ -63,6 +66,7 @@ class _RegistrationState extends State<Registration> {
       }
     } catch (error) {
       // Handle registration errors
+      LoadingDialog.hideLoadingDialog(context);
       _showFlushbar("Email already in use", false);
       throw error;
     }
@@ -284,12 +288,6 @@ class _RegistrationState extends State<Registration> {
                                       });
                                       if (_formKey.currentState!.validate()) {
                                         signup();
-                                        print(
-                                            "Username: ${_usernameController.text}");
-                                        print(
-                                            "Email: ${_emailController.text}");
-                                        print(
-                                            "Password: ${_passwordController.text}");
                                       }
                                     },
                                     style: OutlinedButton.styleFrom(
@@ -354,3 +352,37 @@ class _RegistrationState extends State<Registration> {
     );
   }
 }
+
+class LoadingDialog {
+  static void showLoadingDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                ),
+                SizedBox(width: 16),
+                Text(message),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  static void hideLoadingDialog(BuildContext context) {
+    Navigator.of(context).pop();
+  }
+}
+
