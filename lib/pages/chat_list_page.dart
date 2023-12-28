@@ -34,6 +34,9 @@ class _ChatListPageState extends State<ChatListPage> {
       print('Error fetching chat rooms: $error');
     }
   }
+  void printMessage(){
+    print("delete");
+  }
 
   void navigateToChatRoom(String chatRoomId) {
     Navigator.push(
@@ -43,6 +46,36 @@ class _ChatListPageState extends State<ChatListPage> {
       ),
     );
   }
+
+  void _showPopupMenu(ChatRoomInfo chatRoomInfo, GlobalKey key, String chatroomid) async {
+    RenderBox renderBox = key.currentContext!.findRenderObject() as RenderBox;
+    final position = renderBox.localToGlobal(Offset.zero);
+
+    // Get the width of the screen
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    // Calculate the x-coordinate to position the menu at the right side
+    double xPosition = position.dx > (screenWidth / 2) ? position.dx - 150 : position.dx + renderBox.size.width;
+    // print(chatroomid);
+    await showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(xPosition, position.dy, 0, 0),
+      items: <PopupMenuEntry>[
+        PopupMenuItem(
+          child: GestureDetector(
+            onTap: () {
+
+              Navigator.pop(context);
+              // printMessage();
+              // Handle delete action here
+            },
+            child: Text('Delete'),
+          ),
+        ),
+      ],
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,49 +92,40 @@ class _ChatListPageState extends State<ChatListPage> {
                   child: ListView.builder(
                     itemCount: _chatRooms.length,
                     itemBuilder: (context, index) {
-                      return Dismissible(
-                        key: Key(_chatRooms[index].chatRoomId),
-                        background: Container(
-                          color: Colors.red, // Background color for delete button
-                          alignment: Alignment.centerRight,
-                          padding: EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Icon(
-                            Icons.delete,
-                            color: Colors.white,
+                      // Create a unique GlobalKey for each ListTile
+                      GlobalKey _key = GlobalKey();
+
+                      return Column(
+                        children: [
+                          ListTile(
+                            key: _key,
+                            title: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${_chatRooms[index].otherUsername}',
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                                ),
+                                Text(
+                                  '${_chatRooms[index].lastMessageContent}',
+                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                                ),
+                              ],
+                            ),
+                            onTap: () {
+                              String chatRoomId = _chatRooms[index].chatRoomId;
+                              navigateToChatRoom(chatRoomId);
+                              print('Selected Chat Room ID: $chatRoomId');
+                            },
+                            onLongPress: () {
+                              _showPopupMenu(_chatRooms[index], _key, _chatRooms[index].chatRoomId);
+                            },
                           ),
-                        ),
-                        onDismissed: (direction) {
-                          // Handle the dismissal, e.g., delete the chat room
-                        },
-                        child: Column(
-                          children: [
-                            ListTile(
-                              // Your existing ListTile content
-                              title: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '${_chatRooms[index].otherUsername}',
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                                  ),
-                                  Text(
-                                    '${_chatRooms[index].lastMessageContent}',
-                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                                  ),
-                                ],
-                              ),
-                              onTap: () {
-                                String chatRoomId = _chatRooms[index].chatRoomId;
-                                navigateToChatRoom(chatRoomId);
-                                print('Selected Chat Room ID: $chatRoomId');
-                              },
-                            ),
-                            Divider(
-                              height: .2,
-                              color: Color.fromRGBO(220, 220, 220, .8),
-                            ),
-                          ],
-                        ),
+                          Divider(
+                            height: .2,
+                            color: Color.fromRGBO(220, 220, 220, .8),
+                          ),
+                        ],
                       );
                     },
                   ),
