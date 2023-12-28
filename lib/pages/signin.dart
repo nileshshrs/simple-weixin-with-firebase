@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:firebase_chat_application/pages/home.dart';
 import 'package:firebase_chat_application/services/auth_service.dart';
 import 'package:firebase_chat_application/services/sharedpreferences_service.dart';
@@ -36,7 +37,27 @@ class _SigninState extends State<Signin> {
     } catch (error) {
       // Handle errors, show messages, etc.
       print('Login failed: $error');
+      _showFlushbar("Incorrect email or password", false);
     }
+  }
+  void _showFlushbar(String message, bool isSuccess) {
+    Flushbar(
+      message: message,
+      duration: Duration(seconds: 5),
+      backgroundColor: Colors.white,
+      flushbarPosition: FlushbarPosition.TOP,
+      flushbarStyle: FlushbarStyle.FLOATING,
+      margin: EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 0.0),
+      borderRadius: BorderRadius.circular(10.0),
+      boxShadows: [
+        BoxShadow(
+          color: Colors.grey,
+          offset: Offset(0.0, 2.0),
+          blurRadius: 3.0,
+        ),
+      ],
+      messageColor: isSuccess ? Colors.green : Colors.red,
+    )..show(context);
   }
 
   @override

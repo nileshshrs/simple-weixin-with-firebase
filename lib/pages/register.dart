@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_chat_application/services/auth_service.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_chat_application/pages/signin.dart';
 import 'package:flutter/material.dart';
+import 'package:another_flushbar/flushbar.dart';
+import 'package:firebase_chat_application/services/auth_service.dart';
 
 class Registration extends StatefulWidget {
   const Registration({Key? key}) : super(key: key);
@@ -20,11 +19,31 @@ class _RegistrationState extends State<Registration> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
 
-  registration() async {}
-
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
   final AuthService _authService = AuthService();
+
+  void _showFlushbar(String message, bool isSuccess) {
+    Flushbar(
+      message: message,
+      duration: Duration(seconds: 5),
+      backgroundColor: Colors.white,
+      flushbarPosition: FlushbarPosition.TOP,
+      flushbarStyle: FlushbarStyle.FLOATING,
+      margin: EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 0.0),
+      borderRadius: BorderRadius.circular(10.0),
+      boxShadows: [
+        BoxShadow(
+          color: Colors.grey,
+          offset: Offset(0.0, 2.0),
+          blurRadius: 3.0,
+        ),
+      ],
+      messageColor: isSuccess ? Colors.green : Colors.red,
+    )..show(context);
+  }
+
+
   signup() async {
     try {
       setState(() {
@@ -37,19 +56,17 @@ class _RegistrationState extends State<Registration> {
           password: _passwordController.text,
         );
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Registered successfully!")),
-        );
+        _showFlushbar("Registered successfully!", true);
+        Future.delayed(Duration(seconds: 5), () {
+          Navigator.pushReplacementNamed(context, Signin.routeName);
+        });
       }
     } catch (error) {
       // Handle registration errors
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Email already in use")),
-      );
+      _showFlushbar("Email already in use", false);
       throw error;
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +213,7 @@ class _RegistrationState extends State<Registration> {
                                       onTap: () {
                                         setState(() {
                                           _isPasswordVisible =
-                                              !_isPasswordVisible;
+                                          !_isPasswordVisible;
                                         });
                                       },
                                       child: Icon(
@@ -235,7 +252,7 @@ class _RegistrationState extends State<Registration> {
                                       onTap: () {
                                         setState(() {
                                           _isConfirmPasswordVisible =
-                                              !_isConfirmPasswordVisible;
+                                          !_isConfirmPasswordVisible;
                                         });
                                       },
                                       child: Icon(
@@ -283,7 +300,7 @@ class _RegistrationState extends State<Registration> {
                                       ),
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(8.0),
+                                        BorderRadius.circular(8.0),
                                       ),
                                     ),
                                     child: Text(
