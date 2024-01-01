@@ -34,9 +34,26 @@ class _ChatListPageState extends State<ChatListPage> {
       print('Error fetching chat rooms: $error');
     }
   }
-  void printMessage(){
-    print("delete");
+  Future<void> deleteChatRoom(String chatRoomId) async {
+    try {
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection('chat_rooms').doc(chatRoomId).get();
+
+      if (documentSnapshot.exists) {
+        print(chatRoomId);
+        await FirebaseFirestore.instance.collection('chat_rooms').doc(chatRoomId).delete();
+        print('Chat room deleted successfully.');
+        setState(() {
+          _chatRooms.removeWhere((chatRoom) => chatRoom.chatRoomId == chatRoomId);
+        });
+        fetchChatRooms();
+      } else {
+        print('Chat room does not exist.');
+      }
+    } catch (error) {
+      print('Error deleting chat room: $error');
+    }
   }
+
 
   void navigateToChatRoom(String chatRoomId) {
     Navigator.push(
@@ -63,8 +80,8 @@ class _ChatListPageState extends State<ChatListPage> {
       items: <PopupMenuEntry>[
         PopupMenuItem(
           child: GestureDetector(
-            onTap: () {
-
+            onTap: () async {
+              await deleteChatRoom(chatroomid);
               Navigator.pop(context);
               // printMessage();
               // Handle delete action here
