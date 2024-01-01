@@ -75,7 +75,7 @@ class _SigninState extends State<Signin> {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color(0xFF4BAD4F), Color(0xFF4BAD4F)],
+                    colors: [ Color(0xFF3EB575),  Color(0xFF3EB575)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -136,7 +136,7 @@ class _SigninState extends State<Signin> {
                                 decoration: BoxDecoration(
                                   border: Border(
                                     bottom: BorderSide(
-                                      color: Color(0xFF4BAD4F),
+                                      color:  Color(0xFF3EB575),
                                       width: 2.0,
                                     ),
                                   ),
@@ -155,7 +155,7 @@ class _SigninState extends State<Signin> {
                                         ),
                                       ),
                                     ),
-                                    Icon(Icons.email, color: Color(0xFF4BAD4F)),
+                                    Icon(Icons.email, color: Color(0xFF3EB575)),
                                   ],
                                 ),
                               ),
@@ -166,7 +166,7 @@ class _SigninState extends State<Signin> {
                                 decoration: BoxDecoration(
                                   border: Border(
                                     bottom: BorderSide(
-                                      color: Color(0xFF4BAD4F),
+                                      color:  Color(0xFF3EB575),
                                       width: 2.0,
                                     ),
                                   ),
@@ -197,7 +197,7 @@ class _SigninState extends State<Signin> {
                                         _isPasswordVisible
                                             ? Icons.visibility
                                             : Icons.visibility_off,
-                                        color: Color(0xFF4BAD4F),
+                                        color:  Color(0xFF3EB575),
                                       ),
                                     ),
                                   ],
@@ -213,7 +213,7 @@ class _SigninState extends State<Signin> {
                                 child: Text(
                                   "Forgot Password?",
                                   style: TextStyle(
-                                    color: Color(0xFF4BAD4F),
+                                    color:  Color(0xFF3EB575),
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -231,7 +231,7 @@ class _SigninState extends State<Signin> {
                                         "Password: ${_passwordController.text}");
                                   },
                                   style: OutlinedButton.styleFrom(
-                                    backgroundColor: Color(0xFF4BAD4F),
+                                    backgroundColor:  Color(0xFF3EB575),
                                     side: BorderSide(
                                       color: Colors.white,
                                       width: 1.0,
@@ -273,7 +273,7 @@ class _SigninState extends State<Signin> {
                               Text(
                                 "Register",
                                 style: TextStyle(
-                                  color: Color(0xFF4BAD4F),
+                                  color:  Color(0xFF3EB575),
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.bold,
                                 ),

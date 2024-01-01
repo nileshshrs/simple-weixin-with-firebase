@@ -39,7 +39,7 @@ class _RegistrationState extends State<Registration> {
           blurRadius: 3.0,
         ),
       ],
-      messageColor: isSuccess ? Colors.green : Colors.red,
+      messageColor: isSuccess ? Color(0xFF3EB575) : Colors.red,
     )..show(context);
   }
 
@@ -84,7 +84,7 @@ class _RegistrationState extends State<Registration> {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color(0xFF4BAD4F), Color(0xFF4BAD4F)],
+                    colors: [Color(0xFF3EB575), Color(0xFF3EB575)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -120,7 +120,7 @@ class _RegistrationState extends State<Registration> {
                         Text(
                           "Create a new account",
                           style: TextStyle(
-                            color: Color(0xFFBBB0FF),
+                            color: Color(0xFF3EB575),
                             fontSize: 20.0,
                             fontWeight: FontWeight.w500,
                           ),
@@ -150,15 +150,15 @@ class _RegistrationState extends State<Registration> {
                                     ),
                                     enabledBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Color(0xFF4BAD4F), width: 2.0),
+                                          color:  Color(0xFF3EB575), width: 2.0),
                                     ),
                                     focusedBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Color(0xFF4BAD4F), width: 2.0),
+                                          color:  Color(0xFF3EB575), width: 2.0),
                                     ),
                                     suffixIcon: Icon(
                                       Icons.person,
-                                      color: Color(0xFF4BAD4F),
+                                      color:  Color(0xFF3EB575),
                                     ),
                                   ),
                                   validator: (value) {
@@ -178,15 +178,15 @@ class _RegistrationState extends State<Registration> {
                                     ),
                                     enabledBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Color(0xFF4BAD4F), width: 2.0),
+                                          color:  Color(0xFF3EB575), width: 2.0),
                                     ),
                                     focusedBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Color(0xFF4BAD4F), width: 2.0),
+                                          color:  Color(0xFF3EB575), width: 2.0),
                                     ),
                                     suffixIcon: Icon(
                                       Icons.email,
-                                      color: Color(0xFF4BAD4F),
+                                      color:  Color(0xFF3EB575),
                                     ),
                                   ),
                                   validator: (value) {
@@ -207,11 +207,11 @@ class _RegistrationState extends State<Registration> {
                                     ),
                                     enabledBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Color(0xFF4BAD4F), width: 2.0),
+                                          color:  Color(0xFF3EB575), width: 2.0),
                                     ),
                                     focusedBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Color(0xFF4BAD4F), width: 2.0),
+                                          color:  Color(0xFF3EB575), width: 2.0),
                                     ),
                                     suffixIcon: GestureDetector(
                                       onTap: () {
@@ -224,7 +224,7 @@ class _RegistrationState extends State<Registration> {
                                         _isPasswordVisible
                                             ? Icons.visibility
                                             : Icons.visibility_off,
-                                        color: Color(0xFF4BAD4F),
+                                        color:  Color(0xFF3EB575),
                                       ),
                                     ),
                                   ),
@@ -246,11 +246,11 @@ class _RegistrationState extends State<Registration> {
                                     ),
                                     enabledBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Color(0xFF4BAD4F), width: 2.0),
+                                          color:  Color(0xFF3EB575), width: 2.0),
                                     ),
                                     focusedBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: Color(0xFF4BAD4F), width: 2.0),
+                                          color:  Color(0xFF3EB575), width: 2.0),
                                     ),
                                     suffixIcon: GestureDetector(
                                       onTap: () {
@@ -263,7 +263,7 @@ class _RegistrationState extends State<Registration> {
                                         _isConfirmPasswordVisible
                                             ? Icons.visibility
                                             : Icons.visibility_off,
-                                        color: Color(0xFF4BAD4F),
+                                        color:  Color(0xFF3EB575),
                                       ),
                                     ),
                                   ),
@@ -291,7 +291,7 @@ class _RegistrationState extends State<Registration> {
                                       }
                                     },
                                     style: OutlinedButton.styleFrom(
-                                      backgroundColor: Color(0xFF4BAD4F),
+                                      backgroundColor:  Color(0xFF3EB575),
                                       side: BorderSide(
                                         color: Colors.white,
                                         width: 1.0,
@@ -331,7 +331,7 @@ class _RegistrationState extends State<Registration> {
                                 Text(
                                   "Login",
                                   style: TextStyle(
-                                    color: Color(0xFF4BAD4F),
+                                    color:  Color(0xFF3EB575),
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -369,7 +369,7 @@ class LoadingDialog {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF3EB575)),
                 ),
                 SizedBox(width: 16),
                 Text(message),

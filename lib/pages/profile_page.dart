@@ -137,13 +137,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         Icon(
                           IconData(0xf3fb, fontFamily: 'CupertinoIcons', fontPackage: 'cupertino_icons'),
-                          color: Colors.green, // Set icon color to white
+                          color: Color(0xFF3EB575), // Set icon color to white
                         ),
                         SizedBox(width: 8), // Add spacing between icon and text
                         Text(
                           'Send Message',
                           style: TextStyle(
-                            color: Colors.green,
+                            color: Color(0xFF3EB575),
                             fontSize: 18,
                             fontWeight: FontWeight.w500// Set text color to white
                           ),

@@ -42,7 +42,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                 if (!snapshot.hasData) {
                   return Center(
                     child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF3EB575)),
                     ),
                   );
                 }
@@ -81,7 +81,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                             width: MediaQuery.of(context).size.width * (2 / 3),
                             decoration: BoxDecoration(
                               color: messages[index].sender == loggedInUsername
-                                  ? Colors.green
+                                  ? Color(0xFF3EB575)
                                   : Colors.white,
                               borderRadius:
                                   messages[index].sender == loggedInUsername
@@ -146,11 +146,11 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                       border: UnderlineInputBorder(
                         borderSide: BorderSide(
                             color:
-                                Colors.green), // Set the default border color
+                            Color(0xFF3EB575)), // Set the default border color
                       ),
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                            color: Colors.green), // Set the border color
+                            color: Color(0xFF3EB575)), // Set the border color
                       ),
                     ),
                   ),
@@ -163,7 +163,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                     sendMessage();
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.green, // Set the button background color
+                    backgroundColor: Color(0xFF3EB575), // Set the button background color
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius
                           .zero, // Set the button shape (rectangular)
