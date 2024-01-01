@@ -39,7 +39,9 @@ class _HomeState extends State<Home> {
     Color customLightGrey = Color(0xFFFFFCFC);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: selectedIndex == 1
+          ? null // Hide the AppBar when on the Profile page
+          : AppBar(
         title: Center(child: Text('Weixin')),
         backgroundColor: customLightGrey,
         elevation: 1,
