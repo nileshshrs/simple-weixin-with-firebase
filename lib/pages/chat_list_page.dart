@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_chat_application/pages/chat_page.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,38 +16,55 @@ class ChatListPage extends StatefulWidget {
 
 class _ChatListPageState extends State<ChatListPage> {
   List<ChatRoomInfo> _chatRooms = [];
+  StreamSubscription<QuerySnapshot>? _chatRoomsSubscription;
 
   @override
   void initState() {
     super.initState();
-    fetchChatRooms();
+    _setupChatRoomsListener();
   }
 
-  Future<void> fetchChatRooms() async {
-    try {
-      String? loggedInUsername =
-      (await SharedPreferencesService.getUserData())['username'];
-      List<ChatRoomInfo> chatRooms =
-      await searchChatRooms(loggedInUsername ?? '');
+  void _setupChatRoomsListener() async {
+    String? loggedInUsername = (await SharedPreferencesService.getUserData())['username'];
+    Stream<QuerySnapshot> chatRoomsStream = FirebaseFirestore.instance
+        .collection('chat_rooms')
+        .where('user_names', arrayContains: loggedInUsername)
+        .orderBy('created_at', descending: true)
+        .snapshots();
+
+    _chatRoomsSubscription = chatRoomsStream.listen((QuerySnapshot snapshot) {
+      List<ChatRoomInfo> chatRooms = snapshot.docs.map((doc) {
+        List<String> userNames = List.from(doc['user_names'] ?? []);
+        String otherUsername = userNames.firstWhere((name) => name != loggedInUsername);
+        String lastMessageContent = doc['last_message']['content'] ?? 'No messages yet';
+        return ChatRoomInfo(
+          chatRoomId: doc.id,
+          otherUsername: otherUsername,
+          lastMessageContent: lastMessageContent,
+        );
+      }).toList();
+
       setState(() {
         _chatRooms = chatRooms;
       });
-    } catch (error) {
-      print('Error fetching chat rooms: $error');
-    }
+    });
   }
+
+  @override
+  void dispose() {
+    _chatRoomsSubscription?.cancel();
+    super.dispose();
+  }
+
   Future<void> deleteChatRoom(String chatRoomId) async {
     try {
-      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection('chat_rooms').doc(chatRoomId).get();
+      DocumentSnapshot documentSnapshot =
+      await FirebaseFirestore.instance.collection('chat_rooms').doc(chatRoomId).get();
 
       if (documentSnapshot.exists) {
         print(chatRoomId);
         await FirebaseFirestore.instance.collection('chat_rooms').doc(chatRoomId).delete();
         print('Chat room deleted successfully.');
-        setState(() {
-          _chatRooms.removeWhere((chatRoom) => chatRoom.chatRoomId == chatRoomId);
-        });
-        fetchChatRooms();
       } else {
         print('Chat room does not exist.');
       }
@@ -53,7 +72,6 @@ class _ChatListPageState extends State<ChatListPage> {
       print('Error deleting chat room: $error');
     }
   }
-
 
   void navigateToChatRoom(String chatRoomId) {
     Navigator.push(
@@ -68,12 +86,9 @@ class _ChatListPageState extends State<ChatListPage> {
     RenderBox renderBox = key.currentContext!.findRenderObject() as RenderBox;
     final position = renderBox.localToGlobal(Offset.zero);
 
-    // Get the width of the screen
     double screenWidth = MediaQuery.of(context).size.width;
-
-    // Calculate the x-coordinate to position the menu at the right side
     double xPosition = position.dx > (screenWidth / 2) ? position.dx - 150 : position.dx + renderBox.size.width;
-    // print(chatroomid);
+
     await showMenu(
       context: context,
       position: RelativeRect.fromLTRB(xPosition, position.dy, 0, 0),
@@ -83,8 +98,6 @@ class _ChatListPageState extends State<ChatListPage> {
             onTap: () async {
               await deleteChatRoom(chatroomid);
               Navigator.pop(context);
-              // printMessage();
-              // Handle delete action here
             },
             child: Text('Delete'),
           ),
@@ -92,7 +105,6 @@ class _ChatListPageState extends State<ChatListPage> {
       ],
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +121,6 @@ class _ChatListPageState extends State<ChatListPage> {
                   child: ListView.builder(
                     itemCount: _chatRooms.length,
                     itemBuilder: (context, index) {
-                      // Create a unique GlobalKey for each ListTile
                       GlobalKey _key = GlobalKey();
 
                       return Column(
@@ -166,32 +177,4 @@ class ChatRoomInfo {
     required this.otherUsername,
     required this.lastMessageContent,
   });
-}
-
-Future<List<ChatRoomInfo>> searchChatRooms(String username) async {
-  try {
-    CollectionReference chatRoomsCollection =
-    FirebaseFirestore.instance.collection('chat_rooms');
-
-    QuerySnapshot chatRoomsSnapshot = await chatRoomsCollection
-        .where('user_names', arrayContains: username)
-        .orderBy('created_at', descending: true)
-        .get();
-
-    List<ChatRoomInfo> chatRooms = chatRoomsSnapshot.docs.map((doc) {
-      List<String> userNames = List.from(doc['user_names'] ?? []);
-      String otherUsername = userNames.firstWhere((name) => name != username);
-      String lastMessageContent =
-          doc['last_message']['content'] ?? 'No messages yet';
-      return ChatRoomInfo(
-          chatRoomId: doc.id,
-          otherUsername: otherUsername,
-          lastMessageContent: lastMessageContent);
-    }).toList();
-
-    return chatRooms;
-  } catch (error) {
-    print('Error searching for chat rooms: $error');
-    throw error;
-  }
 }
