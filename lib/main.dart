@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => RegistrationViewModel()),
         ChangeNotifierProvider(create: (context) => LoginViewModel()),
+
         // Add more providers for other view models or services if needed
       ],
       child: MaterialApp(

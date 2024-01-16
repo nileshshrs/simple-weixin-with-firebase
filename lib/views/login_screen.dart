@@ -1,7 +1,5 @@
 // lib/views/login_screen.dart
 import 'package:firebase_chat_application/models/user_model.dart';
-import 'package:firebase_chat_application/viewmodels/registration_view_model.dart';
-import 'package:firebase_chat_application/views/home.dart';
 import 'package:firebase_chat_application/views/home_screen.dart';
 import 'package:firebase_chat_application/views/registration_screen.dart';
 import 'package:flutter/material.dart';

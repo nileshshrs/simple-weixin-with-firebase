@@ -1,8 +1,9 @@
+import 'package:firebase_chat_application/views/ChatList_screen.dart';
+import 'package:firebase_chat_application/views/UserProfile_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = "/home";
-  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -21,8 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Function to handle logout
   Future<void> _logout() async {
-    // Implement logout logic
-    // For example, clear user data from shared preferences and navigate to the login screen
+
   }
 
   @override
@@ -31,24 +31,25 @@ class _HomeScreenState extends State<HomeScreen> {
     Color customLightGrey = Color(0xFFFFFCFC);
 
     return Scaffold(
-      appBar: selectedIndex == 1
-          ? null // Hide the AppBar when on the Profile page
-          : AppBar(
-        title: Center(child: Text('Your App Name')),
+      appBar: AppBar(
+        title: Center(child: Text('Weixin', style: TextStyle(color: Colors.black))),
         backgroundColor: customLightGrey,
         elevation: 1,
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-            icon: Icon(Icons.search),
+            icon: Icon(Icons.search, color: Colors.black),
             onPressed: () {
               // Handle search button press
-              // For example, navigate to the search page
+
             },
           ),
           IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: _logout,
+            icon: Icon(Icons.logout, color: Colors.black),
+            onPressed: () {
+              // Handle logout button press
+              // You can implement your logic here
+            },
           ),
         ],
       ),
@@ -58,16 +59,20 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: customLightGrey,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
+            icon: Icon(
+              IconData(0xf3fb,
+                  fontFamily: 'CupertinoIcons', fontPackage: 'cupertino_icons'),
+              color: Colors.black,
+            ),
             label: 'Chat',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.person, color: Colors.black),
             label: 'Profile',
           ),
         ],
         currentIndex: selectedIndex,
-        selectedItemColor: Colors.green, // Adjust the color as needed
+        selectedItemColor: Color(0xFF3EB575),
         unselectedItemColor: Colors.black,
         onTap: (index) {
           setState(() {
@@ -88,28 +93,6 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         },
       ),
-    );
-  }
-}
-
-class ChatListPage extends StatelessWidget {
-  const ChatListPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Chat List Page'),
-    );
-  }
-}
-
-class UserProfilePage extends StatelessWidget {
-  const UserProfilePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('User Profile Page'),
     );
   }
 }
