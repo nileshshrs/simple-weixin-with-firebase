@@ -1,11 +1,13 @@
 // lib/views/registration_screen.dart
-import 'package:firebase_chat_application/utils/loading_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_chat_application/utils/loading_dialog.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:firebase_chat_application/viewmodels/registration_view_model.dart';
+import 'package:firebase_chat_application/views/login_screen.dart'; // Import the login screen
 import 'package:provider/provider.dart';
 
 class RegistrationScreen extends StatelessWidget {
+  static const String routeName = "/registration";
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -316,7 +318,9 @@ class RegistrationScreen extends StatelessWidget {
                               Center(
                                 child: GestureDetector(
                                   onTap: () {
-                                    Navigator.pop(context);
+                                    // Navigate to the login screen
+                                    Navigator.pushReplacementNamed(
+                                        context, LoginScreen.routeName);
                                   },
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,

@@ -1,3 +1,4 @@
+// lib/models/user_model.dart
 class UserModel {
   final String id;
   final String username;
@@ -12,4 +13,9 @@ class UserModel {
     required this.createdAt,
     required this.image,
   });
+
+  @override
+  String toString() {
+    return 'UserModel{id: $id, username: $username, email: $email, createdAt: $createdAt, image: $image}';
+  }
 }
