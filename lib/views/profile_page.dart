@@ -1,3 +1,4 @@
+import 'package:firebase_chat_application/repositories/chat_repository.dart';
 import 'package:firebase_chat_application/views/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -17,12 +18,15 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   late ProfileViewModel _profileViewModel;
   late LoginViewModel _loginViewModel; // Instantiate LoginViewModel
-
+  late ChatRepository _chatRepository;
+  String? loggedInUserId;
+  String ? loggedInUsername;
   @override
   void initState() {
     super.initState();
     _profileViewModel = ProfileViewModel();
-    _loginViewModel = LoginViewModel(); // Initialize LoginViewModel
+    _loginViewModel = LoginViewModel();
+    _chatRepository = ChatRepository();// Initialize LoginViewModel
     _loadUserData();
   }
 
@@ -83,12 +87,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         height: 100,
                         decoration: BoxDecoration(
                           shape: BoxShape.rectangle,
-                          image: _profileViewModel.user?.image.isNotEmpty ?? false
-                              ? DecorationImage(
-                            image: NetworkImage(_profileViewModel.user?.image ?? ''),
-                            fit: BoxFit.cover,
-                          )
-                              : null, // Null if the image URL is empty
+                          image:
+                              _profileViewModel.user?.image.isNotEmpty ?? false
+                                  ? DecorationImage(
+                                      image: NetworkImage(
+                                          _profileViewModel.user?.image ?? ''),
+                                      fit: BoxFit.cover,
+                                    )
+                                  : null, // Null if the image URL is empty
                         ),
                       ),
                       SizedBox(width: 16),
@@ -127,7 +133,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Center(
                     child: Text(
                       'Created at: ${DateFormat('yyyy-MM-dd').format(_profileViewModel.user?.createdAt ?? DateTime.now())}',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF191970)),
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF191970)),
                     ),
                   ),
                 ),
@@ -139,13 +148,20 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: ElevatedButton(
                     onPressed: () async {
                       String receiverId = _profileViewModel.user?.id ?? '';
-                      String receiverUsername = _profileViewModel.user?.username ?? '';
-
+                      String receiverUsername =
+                          _profileViewModel.user?.username ?? '';
 
                       // Print the user data from LoginViewModel
-                     UserModel ? user =await LoginViewModel().getUserDataFromPreferences();
-                      print('logged in user uid: ${user?.id}');
+                      UserModel? user =
+                          await _loginViewModel.getUserDataFromPreferences();
+                      loggedInUserId = user?.id;
+                      loggedInUsername = user?.username;
+
+                      print('$receiverId,$receiverUsername');
+                      print('logged in user, ${loggedInUserId}, ${loggedInUsername}');
+                      String chatroomId = await _chatRepository.createChatRoom(loggedInUserId, loggedInUsername, receiverId, receiverUsername);
                       // Rest of your code...
+                      print(chatroomId);
                     },
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
@@ -158,7 +174,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          IconData(0xf3fb, fontFamily: 'CupertinoIcons', fontPackage: 'cupertino_icons'),
+                          IconData(0xf3fb,
+                              fontFamily: 'CupertinoIcons',
+                              fontPackage: 'cupertino_icons'),
                           color: Color(0xFF3EB575),
                         ),
                         SizedBox(width: 8),
