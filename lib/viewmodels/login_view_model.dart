@@ -64,6 +64,10 @@ class LoginViewModel extends ChangeNotifier {
     prefs.setString('createdAt', user.createdAt.toString());
     prefs.setString('image', user.image);
   }
+  Future<void> clearUserDataFromPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
 
   void _setLoading(bool value) {
     _isLoading = value;

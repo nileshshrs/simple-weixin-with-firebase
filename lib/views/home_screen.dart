@@ -1,5 +1,8 @@
+import 'package:firebase_chat_application/viewmodels/login_view_model.dart';
 import 'package:firebase_chat_application/views/ChatList_screen.dart';
 import 'package:firebase_chat_application/views/UserProfile_screen.dart';
+import 'package:firebase_chat_application/views/login_screen.dart';
+import 'package:firebase_chat_application/views/search.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,7 +25,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Function to handle logout
   Future<void> _logout() async {
+    try {
+      // Access your LoginViewModel or wherever you have the logout logic
+      // Assuming you have an instance of LoginViewModel
+      LoginViewModel loginViewModel = LoginViewModel();
 
+      // Clear user data from shared preferences
+      await loginViewModel.clearUserDataFromPreferences();
+
+      // Navigate to the login screen
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    } catch (error) {
+      print('Logout failed: $error');
+    }
   }
 
   @override
@@ -41,12 +56,13 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.search, color: Colors.black),
             onPressed: () {
               // Handle search button press
-
+              Navigator.pushReplacementNamed(context, SearchPage.routeName);
             },
           ),
           IconButton(
             icon: Icon(Icons.logout, color: Colors.black),
             onPressed: () {
+              _logout();
               // Handle logout button press
               // You can implement your logic here
             },

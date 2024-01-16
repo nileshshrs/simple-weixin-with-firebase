@@ -142,15 +142,15 @@ class _SearchPageState extends State<SearchPage> {
               return ListTile(
                 title: Text(user['username']),
                 subtitle: Text(user['email']),
-                onTap: () {
-                  navigateToProfilePage(
-                    user['username'],
-                    user['email'],
-                    user['id'],
-                    user['image'],
-                    user['created at']
-                  );
-                },
+                // onTap: () {
+                //   navigateToProfilePage(
+                //     user['username'],
+                //     user['email'],
+                //     user['id'],
+                //     user['image'],
+                //     user['created at']
+                //   );
+                // },
               );
             },
           );

@@ -3,6 +3,7 @@ import 'package:firebase_chat_application/viewmodels/registration_view_model.dar
 import 'package:firebase_chat_application/views/home_screen.dart';
 import 'package:firebase_chat_application/views/registration_screen.dart';
 import 'package:firebase_chat_application/views/login_screen.dart'; // Add the import for LoginScreen
+import 'package:firebase_chat_application/views/search_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,10 +30,11 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'weixin',
-        home: RegistrationScreen(),
+        home: HomeScreen(),
         routes: {
           LoginScreen.routeName: (context) => LoginScreen(),
-          HomeScreen.routeName: (context) => HomeScreen(),// Add this line for the LoginScreen route
+          HomeScreen.routeName: (context) => HomeScreen(),
+          SearchPage.routeName: (context) => SearchPage(),// Add this line for the LoginScreen route
         },
         debugShowCheckedModeBanner: false,
       ),
