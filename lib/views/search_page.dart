@@ -1,5 +1,6 @@
 // lib/views/search_page.dart
 import 'dart:async';
+import 'package:firebase_chat_application/views/profile_page.dart';
 import 'package:flutter/material.dart';
 import '../models/user_model.dart';
 import '../viewmodels/search_view_model.dart';
@@ -45,7 +46,7 @@ class _SearchPageState extends State<SearchPage> {
               SizedBox(width: 8),
               Expanded(
                 child: TextField(
-                  cursorColor: Colors.green, // Set cursor color to green
+                  cursorColor: Colors.green,
                   controller: _searchController,
                   onChanged: (query) => _searchViewModel.performSearch(query),
                   style: TextStyle(fontSize: 16),
@@ -98,7 +99,14 @@ class _SearchPageState extends State<SearchPage> {
               return ListTile(
                 title: Text(user.username),
                 subtitle: Text(user.email),
-                // Add any other information you want to display
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfilePage(userId: user.id),
+                    ),
+                  );
+                },
               );
             },
           );

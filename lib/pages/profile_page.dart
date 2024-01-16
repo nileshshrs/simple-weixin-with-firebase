@@ -38,6 +38,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text('${widget.username}'),
+
         ),
         body: Container(
           padding: EdgeInsets.only(bottom: 20), // Add padding to the bottom of the container
@@ -159,4 +160,13 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
+}
+void _navigateToProfilePage(String userId) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => ProfilePage(userId: userId),
+    ),
+  );
+}
 }

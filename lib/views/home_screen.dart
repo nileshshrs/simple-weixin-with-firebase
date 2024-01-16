@@ -2,7 +2,7 @@ import 'package:firebase_chat_application/viewmodels/login_view_model.dart';
 import 'package:firebase_chat_application/views/ChatList_screen.dart';
 import 'package:firebase_chat_application/views/UserProfile_screen.dart';
 import 'package:firebase_chat_application/views/login_screen.dart';
-import 'package:firebase_chat_application/views/search.dart';
+import 'package:firebase_chat_application/pages/search.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {

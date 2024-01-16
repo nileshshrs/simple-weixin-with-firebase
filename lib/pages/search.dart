@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'profile_page.dart';
+// import '../views/profile_page.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -43,20 +43,20 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
-  void navigateToProfilePage(String username, String email, String id, String image, Timestamp createdAt) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ProfilePage(
-          username: username,
-          email: email,
-          id: id,
-          image: image,
-          createdAt: createdAt,
-        ),
-      ),
-    );
-  }
+  // void navigateToProfilePage(String username, String email, String id, String image, Timestamp createdAt) {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => ProfilePage(
+  //         username: username,
+  //         email: email,
+  //         id: id,
+  //         image: image,
+  //         createdAt: createdAt,
+  //       ),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
