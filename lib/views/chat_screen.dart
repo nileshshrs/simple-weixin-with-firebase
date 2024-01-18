@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
+import '../models/message.dart'; // Import your Message model
 
 class ChatRoomPage extends StatefulWidget {
   final String chatRoomId;
@@ -192,8 +193,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
     );
   }
 
-  String formatDate(String timestamp) {
-    DateTime dateTime = DateTime.tryParse(timestamp) ?? DateTime.now();
+  String formatDate(Timestamp timestamp) {
+    DateTime dateTime = timestamp.toDate();
     String formattedDate =
         '${dateTime.day.toString().padLeft(2, '0')}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.year.toString().substring(2)} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
     return formattedDate;
@@ -210,7 +211,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
         'content': content,
         'sender': _chatViewModel.loggedInUsername,
         'timestamp': FieldValue.serverTimestamp(),
-      }).then((_) {
+      })
+          .then((_) {
         FirebaseFirestore.instance
             .collection('chat_rooms')
             .doc(widget.chatRoomId)
@@ -224,27 +226,5 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
 
       _messageController.clear();
     }
-  }
-}
-
-class Message {
-  final String content;
-  final String sender;
-  final String timestamp;
-
-  Message({
-    required this.content,
-    required this.sender,
-    required this.timestamp,
-  });
-
-  factory Message.fromMap(Map<String, dynamic> map) {
-    return Message(
-      content: map['content'] ?? '',
-      sender: map['sender'] ?? '',
-      timestamp: map['timestamp'] is Timestamp
-          ? (map['timestamp'] as Timestamp).toDate().toString()
-          : '',
-    );
   }
 }
