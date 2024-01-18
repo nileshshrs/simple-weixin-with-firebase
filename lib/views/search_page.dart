@@ -33,6 +33,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Container(
           margin: EdgeInsets.symmetric(horizontal: 4),
           padding: EdgeInsets.only(bottom: 4, top: 4),

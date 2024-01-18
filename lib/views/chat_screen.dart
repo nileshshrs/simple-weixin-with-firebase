@@ -38,7 +38,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_chatViewModel.otherUsername),
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Text(_chatViewModel.otherUsername, style: TextStyle(color: Colors.black),),
         backgroundColor: Color(0xFFEDEDED),
       ),
       backgroundColor: Color(0xFFEDEDED),
@@ -203,27 +204,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
   void sendMessage() {
     String content = _messageController.text.trim();
     if (content.isNotEmpty) {
-      FirebaseFirestore.instance
-          .collection('chat_rooms')
-          .doc(widget.chatRoomId)
-          .collection('messages')
-          .add({
-        'content': content,
-        'sender': _chatViewModel.loggedInUsername,
-        'timestamp': FieldValue.serverTimestamp(),
-      })
-          .then((_) {
-        FirebaseFirestore.instance
-            .collection('chat_rooms')
-            .doc(widget.chatRoomId)
-            .update({
-          'created_at': FieldValue.serverTimestamp(),
-          'last_message.content': content,
-          'last_message.sender': _chatViewModel.loggedInUsername,
-          'last_message.timestamp': FieldValue.serverTimestamp(),
-        });
-      });
-
+      _chatViewModel.sendMessage(widget.chatRoomId, content);
       _messageController.clear();
     }
   }

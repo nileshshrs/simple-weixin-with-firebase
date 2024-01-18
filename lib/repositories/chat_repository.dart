@@ -65,4 +65,33 @@ class ChatRepository {
     List<String> sortedUserIds = [userId1, userId2]..sort();
     return '${sortedUserIds[0]}_${sortedUserIds[1]}';
   }
+
+  Future<void> sendMessage(String chatRoomId, String content, String loggedInUsername) async {
+    try {
+      if (content.isNotEmpty) {
+        await _firestore
+            .collection('chat_rooms')
+            .doc(chatRoomId)
+            .collection('messages')
+            .add({
+          'content': content,
+          'sender': loggedInUsername,
+          'timestamp': FieldValue.serverTimestamp(),
+        });
+
+        await _firestore
+            .collection('chat_rooms')
+            .doc(chatRoomId)
+            .update({
+          'created_at': FieldValue.serverTimestamp(),
+          'last_message.content': content,
+          'last_message.sender': loggedInUsername,
+          'last_message.timestamp': FieldValue.serverTimestamp(),
+        });
+      }
+    } catch (error) {
+      print('Error sending message: $error');
+      throw 'Error sending message: $error';
+    }
+  }
 }
