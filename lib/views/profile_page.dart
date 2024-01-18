@@ -1,4 +1,5 @@
 import 'package:firebase_chat_application/repositories/chat_repository.dart';
+import 'package:firebase_chat_application/views/chat_screen.dart';
 import 'package:firebase_chat_application/views/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -162,6 +163,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       String chatroomId = await _chatRepository.createChatRoom(loggedInUserId, loggedInUsername, receiverId, receiverUsername);
                       // Rest of your code...
                       print(chatroomId);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatRoomPage(chatRoomId: chatroomId),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       elevation: 0,

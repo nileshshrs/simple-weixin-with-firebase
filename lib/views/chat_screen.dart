@@ -1,9 +1,8 @@
-import 'package:firebase_chat_application/models/user_model.dart';
-import 'package:firebase_chat_application/viewmodels/login_view_model.dart';
+import 'package:firebase_chat_application/viewmodels/chat_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-// Adjust this import based on your project structure
+
 
 class ChatRoomPage extends StatefulWidget {
   final String chatRoomId;
@@ -16,18 +15,29 @@ class ChatRoomPage extends StatefulWidget {
 
 class _ChatRoomPageState extends State<ChatRoomPage> {
   final TextEditingController _messageController = TextEditingController();
-  LoginViewModel _loginViewModel = LoginViewModel();
+  ChatViewModel _chatViewModel = ChatViewModel(); // Integrate ChatViewModel
 
-  String loggedInUserId = '';
-  String loggedInUsername = '';
-  String otherUserId = '';
-  String otherUsername = '';
+  @override
+  void initState() {
+    super.initState();
+    fetchUsernames();
+  }
+
+  void fetchUsernames() async {
+    try {
+      await _chatViewModel.fetchUsernames(widget.chatRoomId);
+
+      setState(() {});
+    } catch (error) {
+      print('Error fetching usernames: $error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(otherUsername),
+        title: Text(_chatViewModel.otherUsername),
         backgroundColor: Color(0xFFEDEDED),
       ),
       backgroundColor: Color(0xFFEDEDED),
@@ -58,7 +68,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                   reverse: true,
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
-                    bool isOtherUser = messages[index].sender == otherUsername;
+                    bool isOtherUser = messages[index].sender == _chatViewModel.otherUsername;
 
                     return ListTile(
                       title: Column(
@@ -198,7 +208,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
           .collection('messages')
           .add({
         'content': content,
-        'sender': loggedInUsername,
+        'sender': _chatViewModel.loggedInUsername,
         'timestamp': FieldValue.serverTimestamp(),
       }).then((_) {
         FirebaseFirestore.instance
@@ -207,49 +217,12 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
             .update({
           'created_at': FieldValue.serverTimestamp(),
           'last_message.content': content,
-          'last_message.sender': loggedInUsername,
+          'last_message.sender': _chatViewModel.loggedInUsername,
           'last_message.timestamp': FieldValue.serverTimestamp(),
         });
       });
 
       _messageController.clear();
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    fetchUsernames();
-  }
-
-  void fetchUsernames() async {
-    try {
-      UserModel? loggedInUser = await _loginViewModel.getUserDataFromPreferences();
-
-      if (loggedInUser != null) {
-        loggedInUserId = loggedInUser.id;
-        loggedInUsername = loggedInUser.username;
-      }
-
-      DocumentSnapshot chatRoomDoc = await FirebaseFirestore.instance
-          .collection('chat_rooms')
-          .doc(widget.chatRoomId)
-          .get();
-
-      if (chatRoomDoc.exists) {
-        List<String> userIDs = List.from(chatRoomDoc['users'] ?? []);
-        List<String> usernames = List.from(chatRoomDoc['user_names'] ?? []);
-
-        if (userIDs.length == 2 && usernames.length == 2) {
-          otherUserId = userIDs.firstWhere((id) => id != loggedInUserId);
-          otherUsername =
-              usernames.firstWhere((username) => username != loggedInUsername);
-
-          setState(() {});
-        }
-      }
-    } catch (error) {
-      print('Error fetching usernames: $error');
     }
   }
 }
