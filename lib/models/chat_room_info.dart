@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
+// chat_info_model.dart
 
-class ChatRoomInfo {
+class ChatInfoModel {
   final String chatRoomId;
   final String otherUsername;
   final String lastMessageContent;
 
-  ChatRoomInfo({
+  ChatInfoModel({
     required this.chatRoomId,
     required this.otherUsername,
     required this.lastMessageContent,

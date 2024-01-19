@@ -37,13 +37,10 @@ class _ChatListViewState extends State<ChatListView> {
 }
 
 class _ChatListView extends StatelessWidget {
-  void _showPopupMenu(ChatInfoModel chatInfo, BuildContext context, TapDownDetails details) async {
-    RenderBox renderBox = context.findRenderObject() as RenderBox;
-    final position = renderBox.globalToLocal(details.globalPosition);
-
+  void _showPopupMenu(ChatInfoModel chatInfo, BuildContext context) async {
     await showMenu(
       context: context,
-      position: RelativeRect.fromLTRB(position.dx, position.dy, 0, 0),
+      position: RelativeRect.fromLTRB(0, 0, 0, 0),
       items: [
         PopupMenuItem(
           child: GestureDetector(
@@ -57,7 +54,6 @@ class _ChatListView extends StatelessWidget {
       ],
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +100,8 @@ class _ChatListView extends StatelessWidget {
                                 );
                               },
                               onLongPress: () {
-                                _showPopupMenu(chatInfo, context);                              },
+                                _showPopupMenu(chatInfo, context);
+                              },
                               child: Column(
                                 children: [
                                   ListTile(

@@ -1,7 +1,6 @@
-import 'package:firebase_chat_application/pages/chat_list_page.dart';
 import 'package:firebase_chat_application/viewmodels/login_view_model.dart';
-import 'package:firebase_chat_application/views/ChatList_screen.dart';
 import 'package:firebase_chat_application/views/UserProfile_screen.dart';
+import 'package:firebase_chat_application/views/chat_list_page.dart';
 import 'package:firebase_chat_application/views/login_screen.dart';
 import 'package:firebase_chat_application/pages/search.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     // Set the initial page
-    currentPage = const ChatListPage();
+    currentPage = ChatListView();
   }
 
   // Function to handle logout
@@ -99,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // Handle navigation based on index
           switch (index) {
             case 0:
-              currentPage = const ChatListPage();
+              currentPage = ChatListView();
               break;
             case 1:
               currentPage = const UserProfilePage();
