@@ -96,8 +96,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                             width: MediaQuery.of(context).size.width * (2 / 3),
                             decoration: BoxDecoration(
                               color: isOtherUser
-                                  ? Color(0xFF3EB575)
-                                  : Colors.white,
+                                  ? Colors.white
+                                  : Color(0xFF3EB575) ,
                               borderRadius: isOtherUser
                                   ? BorderRadius.only(
                                 topRight: Radius.circular(8),
@@ -124,7 +124,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                             child: Text(
                               messages[index].content,
                               style: TextStyle(
-                                color: isOtherUser ? Colors.white : Colors.black,
+                                color: isOtherUser ? Colors.black : Colors.white,
                               ),
                             ),
                           ),
