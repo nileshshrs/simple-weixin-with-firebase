@@ -1,3 +1,4 @@
+import 'package:firebase_chat_application/pages/chat_list_page.dart';
 import 'package:firebase_chat_application/viewmodels/login_view_model.dart';
 import 'package:firebase_chat_application/views/ChatList_screen.dart';
 import 'package:firebase_chat_application/views/UserProfile_screen.dart';
