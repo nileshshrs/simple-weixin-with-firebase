@@ -45,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     // Custom color that is very subtle off-white
     Color customLightGrey = Color(0xFFFFFCFC);
+    Color selectedIconColor = Color(0xFF3EB575);
 
     return Scaffold(
       appBar: AppBar(
@@ -79,17 +80,20 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(
               IconData(0xf3fb,
                   fontFamily: 'CupertinoIcons', fontPackage: 'cupertino_icons'),
-              color: Colors.black,
+              color: selectedIndex == 0 ? selectedIconColor : Colors.black,
             ),
             label: 'Chat',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person, color: Colors.black),
+            icon: Icon(
+              Icons.person,
+              color: selectedIndex == 1 ? selectedIconColor : Colors.black,
+            ),
             label: 'Profile',
           ),
         ],
         currentIndex: selectedIndex,
-        selectedItemColor: Color(0xFF3EB575),
+        selectedItemColor: selectedIconColor, // Selected icon color
         unselectedItemColor: Colors.black,
         onTap: (index) {
           setState(() {
