@@ -58,6 +58,36 @@ class LoginViewModel extends ChangeNotifier {
     }
   }
 
+  Future<bool> updateUsername(String newUsername) async {
+    try {
+      UserModel? user = await getUserDataFromPreferences();
+
+      if (user != null) {
+        // Create a new instance of UserModel with the updated username
+        UserModel updatedUser = UserModel(
+          id: user.id,
+          username: newUsername,
+          email: user.email,
+          createdAt: user.createdAt,
+          image: user.image,
+        );
+
+        // Update the username in SharedPreferences
+        await _saveUserDataToPreferences(updatedUser);
+
+        // Update the username in chat rooms (if applicable)
+        // Example: await _updateChatRoomUsernames(user.username, newUsername);
+
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      print('Error updating username: $error');
+      return false;
+    }
+  }
+
   Future<void> _saveUserDataToPreferences(UserModel user) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('userId', user.id);

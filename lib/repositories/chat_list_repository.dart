@@ -20,19 +20,21 @@ class ChatListRepository {
           .orderBy('created_at', descending: true)
           .snapshots()
           .listen((QuerySnapshot snapshot) {
-        List<ChatInfoModel> chatRooms = snapshot.docs.map((doc) {
-          List<String> userNames = List.from(doc['user_names'] ?? []);
-          String otherUsername = userNames.firstWhere((name) => name != loggedInUsername);
-          String lastMessageContent = doc['last_message']['content'] ?? 'No messages yet';
+        if (!_chatRoomsController.isClosed) {
+          List<ChatInfoModel> chatRooms = snapshot.docs.map((doc) {
+            List<String> userNames = List.from(doc['user_names'] ?? []);
+            String otherUsername = userNames.firstWhere((name) => name != loggedInUsername);
+            String lastMessageContent = doc['last_message']['content'] ?? 'No messages yet';
 
-          return ChatInfoModel(
-            chatRoomId: doc.id,
-            otherUsername: otherUsername,
-            lastMessageContent: lastMessageContent,
-          );
-        }).toList();
+            return ChatInfoModel(
+              chatRoomId: doc.id,
+              otherUsername: otherUsername,
+              lastMessageContent: lastMessageContent,
+            );
+          }).toList();
 
-        _chatRoomsController.add(chatRooms);
+          _chatRoomsController.add(chatRooms);
+        }
       });
 
       return chatRoomsStream;
@@ -59,6 +61,8 @@ class ChatListRepository {
   }
 
   void dispose() {
-    _chatRoomsController.close();
+    if (!_chatRoomsController.isClosed) {
+      _chatRoomsController.close();
+    }
   }
 }

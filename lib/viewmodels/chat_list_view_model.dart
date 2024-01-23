@@ -1,19 +1,20 @@
 // chat_list_view_model.dart
 import 'package:firebase_chat_application/models/user_model.dart';
-import 'package:firebase_chat_application/viewmodels/login_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_chat_application/models/chat_room_info.dart';
 import 'package:firebase_chat_application/repositories/chat_list_repository.dart';
+import 'package:firebase_chat_application/viewmodels/login_view_model.dart';
 
 class ChatListViewModel extends ChangeNotifier {
   final ChatListRepository _repository = ChatListRepository();
   Stream<List<ChatInfoModel>> _chatRoomsStream = Stream.empty();
-  LoginViewModel _loginViewModel = LoginViewModel(); // Create an instance of LoginViewModel
 
   Stream<List<ChatInfoModel>> get chatRoomsStream => _chatRoomsStream;
 
-  // Rename the method to `initChatRoomsListener`
   void initChatRoomsListener() async {
+    // Create an instance of LoginViewModel
+    LoginViewModel _loginViewModel = LoginViewModel();
+
     // Use the LoginViewModel to get user data from preferences
     UserModel? loggedInUser = await _loginViewModel.getUserDataFromPreferences();
 
