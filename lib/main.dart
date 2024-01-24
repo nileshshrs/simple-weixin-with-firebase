@@ -31,9 +31,10 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'weixin',
-        home: ForgotPasswordScreen(),
+        home: LoginScreen(),
         routes: {
           RegistrationScreen.routeName: (context) => RegistrationScreen(),
+          ForgotPasswordScreen.routeName:(context)=>ForgotPasswordScreen(),
           LoginScreen.routeName: (context) => LoginScreen(),
           HomeScreen.routeName: (context) => HomeScreen(),
           SearchPage.routeName: (context) => SearchPage(),// Add this line for the LoginScreen route

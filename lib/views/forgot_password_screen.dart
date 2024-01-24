@@ -1,8 +1,10 @@
+import 'package:firebase_chat_application/views/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:another_flushbar/flushbar.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
+  static const String routeName = "/forgot-password";
   @override
   _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
 }
@@ -191,7 +193,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         child: GestureDetector(
                           onTap: () {
                             // Navigate back to the login page
-                            Navigator.pop(context);
+                            Navigator.pushNamed(
+                              context,
+                              LoginScreen.routeName,
+                            );
                           },
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,

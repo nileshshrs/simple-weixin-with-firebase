@@ -1,5 +1,6 @@
 // lib/views/login_screen.dart
 import 'package:firebase_chat_application/models/user_model.dart';
+import 'package:firebase_chat_application/views/forgot_password_screen.dart';
 import 'package:firebase_chat_application/views/home_screen.dart';
 import 'package:firebase_chat_application/views/registration_screen.dart';
 import 'package:flutter/material.dart';
@@ -181,6 +182,10 @@ class LoginScreen extends StatelessWidget {
                                   // Implement the logic for password reset here
                                   // You can navigate to a new screen or show a dialog for password reset
                                   print("Forgot Password tapped!");
+                                  Navigator.pushNamed(
+                                    context,
+                                    ForgotPasswordScreen.routeName,
+                                  );
                                 },
                                 child: Text(
                                   "Forgot Password?",
