@@ -102,6 +102,34 @@ class LoginViewModel extends ChangeNotifier {
     await prefs.clear();
   }
 
+  Future<bool> updateProfilePicture(String newImageUrl) async {
+    try {
+      UserModel? user = await getUserDataFromPreferences();
+
+      if (user != null) {
+        // Create a new instance of UserModel with the updated image URL
+        UserModel updatedUser = UserModel(
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          createdAt: user.createdAt,
+          image: newImageUrl, // Update the image field with the new URL
+        );
+
+        // Update the image URL in SharedPreferences
+        await _saveUserDataToPreferences(updatedUser);
+
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      print('Error updating profile picture: $error');
+      return false;
+    }
+  }
+
+
   void _setLoading(bool value) {
     _isLoading = value;
     notifyListeners();

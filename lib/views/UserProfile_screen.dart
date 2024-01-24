@@ -1,8 +1,15 @@
+
+import 'dart:io';
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_chat_application/models/user_model.dart';
 import 'package:firebase_chat_application/viewmodels/login_view_model.dart';
+
 
 class UserProfilePage extends StatefulWidget {
   static const String routeName = '/userprofile';
@@ -16,6 +23,12 @@ class UserProfilePage extends StatefulWidget {
 class _UserProfilePageState extends State<UserProfilePage> {
   late TextEditingController _usernameController;
   bool _isEditing = false;
+  ImagePicker picker=ImagePicker();
+  // FirebaseStorage storage= FirebaseStorage.instance;
+  File? image;
+  String? url;
+
+
 
   @override
   void initState() {
@@ -28,6 +41,55 @@ class _UserProfilePageState extends State<UserProfilePage> {
     _usernameController.dispose();
     super.dispose();
   }
+  void pickImage(ImageSource source) async {
+    var selected = await picker.pickImage(source: source, imageQuality: 100);
+    if (selected == null) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("No image selected")));
+    } else {
+      setState(() {
+        image = File(selected.path);
+        print(image!.path.split('/'));
+        saveToStorage();
+      });
+    }
+  }
+
+  void saveToStorage() async {
+    try {
+      if (image == null) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("No image selected")));
+        return;
+      }
+
+      // Generate a unique image name using timestamp and a random string
+      String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+      String randomString = '${DateTime.now().microsecondsSinceEpoch}${Random().nextInt(1000)}';
+      String name = '$timestamp-$randomString.jpg';
+
+      Reference storageReference = FirebaseStorage.instance.ref().child('images/$name');
+
+      // Upload the file to Firebase Storage
+      await storageReference.putFile(File(image!.path));
+
+      // Get the download URL
+      String tempUrl = await storageReference.getDownloadURL();
+
+      // Update the profile picture URL in LoginViewModel
+      await LoginViewModel().updateProfilePicture(tempUrl);
+
+      setState(() {
+        url = tempUrl;
+      });
+
+      print('Image URL updated in SharedPreferences: $tempUrl');
+    } catch (error) {
+      print('Error uploading image to Firebase Storage: $error');
+    }
+  }
+
+
+
 
   Future<void> _toggleEditing(UserModel user) async {
     setState(() {
@@ -237,6 +299,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     child: ElevatedButton(
                       onPressed: () {
                         // Handle button press
+                        pickImage(ImageSource.gallery);
                       },
                       style: ElevatedButton.styleFrom(
                         elevation: 0,
@@ -250,7 +313,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         children: [
                           SizedBox(width: 8),
                           Text(
-                            'Edit Profile',
+                            'Change Picture',
                             style: TextStyle(
                               color: Color(0xFF3EB575),
                               fontSize: 18,
