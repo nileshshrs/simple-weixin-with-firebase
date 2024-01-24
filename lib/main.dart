@@ -1,5 +1,6 @@
 import 'package:firebase_chat_application/viewmodels/login_view_model.dart';
 import 'package:firebase_chat_application/viewmodels/registration_view_model.dart';
+import 'package:firebase_chat_application/views/forgot_password_screen.dart';
 import 'package:firebase_chat_application/views/home_screen.dart';
 import 'package:firebase_chat_application/views/registration_screen.dart';
 import 'package:firebase_chat_application/views/login_screen.dart'; // Add the import for LoginScreen
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'weixin',
-        home: LoginScreen(),
+        home: ForgotPasswordScreen(),
         routes: {
           RegistrationScreen.routeName: (context) => RegistrationScreen(),
           LoginScreen.routeName: (context) => LoginScreen(),
