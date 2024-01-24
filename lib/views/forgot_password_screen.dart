@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:another_flushbar/flushbar.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   @override
@@ -8,6 +9,69 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController _emailController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  void _showFlushbar(BuildContext context, String message, bool isSuccess) {
+    if (isSuccess) {
+      // If password reset email is sent successfully, show success Flushbar
+      Flushbar(
+        message: message,
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.white,
+        flushbarPosition: FlushbarPosition.TOP,
+        flushbarStyle: FlushbarStyle.FLOATING,
+        margin: EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 0.0),
+        borderRadius: BorderRadius.circular(10.0),
+        boxShadows: [
+          BoxShadow(
+            color: Colors.grey,
+            offset: Offset(0.0, 2.0),
+            blurRadius: 3.0,
+          ),
+        ],
+        messageColor: Colors.green,
+      )..show(context);
+    } else {
+      // If an error occurred, show error Flushbar
+      Flushbar(
+        message: message,
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.white,
+        flushbarPosition: FlushbarPosition.TOP,
+        flushbarStyle: FlushbarStyle.FLOATING,
+        margin: EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 0.0),
+        borderRadius: BorderRadius.circular(10.0),
+        boxShadows: [
+          BoxShadow(
+            color: Colors.grey,
+            offset: Offset(0.0, 2.0),
+            blurRadius: 3.0,
+          ),
+        ],
+        messageColor: Colors.red,
+      )..show(context);
+    }
+  }
+
+  Future<void> _resetPassword() async {
+    try {
+      await _auth.sendPasswordResetEmail(email: _emailController.text);
+      // Password reset email sent successfully
+      print("Password reset email sent successfully!");
+
+      // Clear the email TextField
+      _emailController.clear();
+
+      // Show success Flushbar
+      _showFlushbar(context, 'Password reset email sent successfully! Please login.', true);
+    } catch (e) {
+      // An error occurred. Handle the error appropriately.
+      print("Error sending password reset email: $e");
+
+      // Show error Flushbar
+      _showFlushbar(context, 'Error sending password reset email', false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,10 +165,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               SizedBox(
                                 width: double.infinity,
                                 child: OutlinedButton(
-                                  onPressed: () {
-                                    // Implement the logic for sending reset password email
-                                    print("Reset Password tapped!");
-                                  },
+                                  onPressed: _resetPassword,
                                   style: OutlinedButton.styleFrom(
                                     backgroundColor: Color(0xFF3EB575),
                                     side: BorderSide(
@@ -144,7 +205,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               ),
                               SizedBox(height: 12),
                               Text(
-                                "Login",
+                                "Back to Login",
                                 style: TextStyle(
                                     color: Color(0xFF3EB575),
                                     fontSize: 16.0,
