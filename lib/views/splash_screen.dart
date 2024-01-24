@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'package:firebase_chat_application/viewmodels/login_view_model.dart';
+import 'package:firebase_chat_application/views/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_chat_application/views/home_screen.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   static const String routeName = "/splash";
@@ -13,11 +16,28 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Simulate a delay using Timer
-    // Timer(Duration(seconds: 2), () {
-    //   // Replace 'HomeScreen.routeName' with your actual main screen route
-    //   Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-    // });
+    _navigateToNextScreen();
+  }
+
+  Future<void> _navigateToNextScreen() async {
+    // Simulate a delay of 5 seconds
+    await Future.delayed(Duration(seconds: 5));
+
+    // Check user status and navigate accordingly
+    _checkUserStatus();
+  }
+
+  Future<void> _checkUserStatus() async {
+    LoginViewModel loginViewModel = Provider.of<LoginViewModel>(context, listen: false);
+    bool isLoggedIn = await loginViewModel.checkLoggedIn();
+
+    if (isLoggedIn) {
+      // User is logged in, navigate to the home screen
+      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+    } else {
+      // User is not logged in, navigate to the login screen
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    }
   }
 
   @override

@@ -128,7 +128,18 @@ class LoginViewModel extends ChangeNotifier {
       return false;
     }
   }
+  Future<bool> checkLoggedIn() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? userId = prefs.getString('userId');
 
+      // If userId is not null, consider the user as logged in
+      return userId != null;
+    } catch (error) {
+      print('Error checking user status: $error');
+      return false;
+    }
+  }
 
   void _setLoading(bool value) {
     _isLoading = value;
