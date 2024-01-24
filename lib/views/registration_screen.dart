@@ -327,9 +327,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                     context);
 
                                                 if (success) {
+                                                  _usernameController.clear();
+                                                  _emailController.clear();
+                                                  _passwordController.clear();
+                                                  _confirmPasswordController.clear();
                                                   _showFlushbar(
                                                       context,
-                                                      "Registration successful",
+                                                      "Registration successful, please login!",
                                                       true);
                                                   // Registration successful, navigate or perform other actions
                                                 } else {
