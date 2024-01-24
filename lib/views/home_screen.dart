@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Icons.person,
               color: selectedIndex == 1 ? selectedIconColor : Colors.black,
             ),
-            label: 'Profile',
+            label: 'Me',
           ),
         ],
         currentIndex: selectedIndex,
