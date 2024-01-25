@@ -1,7 +1,7 @@
 // lib/viewmodels/registration_view_model.dart
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_chat_application/repositories/user_repository.dart';
+import 'package:weixin/repositories/user_repository.dart';
 
 class RegistrationViewModel extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;

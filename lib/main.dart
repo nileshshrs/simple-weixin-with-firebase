@@ -1,11 +1,11 @@
-import 'package:firebase_chat_application/viewmodels/login_view_model.dart';
-import 'package:firebase_chat_application/viewmodels/registration_view_model.dart';
-import 'package:firebase_chat_application/views/forgot_password_screen.dart';
-import 'package:firebase_chat_application/views/home_screen.dart';
-import 'package:firebase_chat_application/views/registration_screen.dart';
-import 'package:firebase_chat_application/views/login_screen.dart'; // Add the import for LoginScreen
-import 'package:firebase_chat_application/views/search_page.dart';
-import 'package:firebase_chat_application/views/splash_screen.dart';
+import 'package:weixin/viewmodels/login_view_model.dart';
+import 'package:weixin/viewmodels/registration_view_model.dart';
+import 'package:weixin/views/forgot_password_screen.dart';
+import 'package:weixin/views/home_screen.dart';
+import 'package:weixin/views/registration_screen.dart';
+import 'package:weixin/views/login_screen.dart'; // Add the import for LoginScreen
+import 'package:weixin/views/search_page.dart';
+import 'package:weixin/views/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

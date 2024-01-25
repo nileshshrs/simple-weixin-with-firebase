@@ -1,4 +1,4 @@
-import 'package:firebase_chat_application/viewmodels/chat_view_model.dart';
+import 'package:weixin/viewmodels/chat_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';

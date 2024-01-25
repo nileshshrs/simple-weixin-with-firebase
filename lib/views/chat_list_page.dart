@@ -1,8 +1,8 @@
 // chat_list_view.dart
 
-import 'package:firebase_chat_application/models/chat_room_info.dart';
-import 'package:firebase_chat_application/viewmodels/chat_list_view_model.dart';
-import 'package:firebase_chat_application/views/chat_screen.dart';
+import 'package:weixin/models/chat_room_info.dart';
+import 'package:weixin/viewmodels/chat_list_view_model.dart';
+import 'package:weixin/views/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

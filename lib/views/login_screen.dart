@@ -1,12 +1,12 @@
 // lib/views/login_screen.dart
-import 'package:firebase_chat_application/models/user_model.dart';
-import 'package:firebase_chat_application/views/forgot_password_screen.dart';
-import 'package:firebase_chat_application/views/home_screen.dart';
-import 'package:firebase_chat_application/views/registration_screen.dart';
+import 'package:weixin/models/user_model.dart';
+import 'package:weixin/views/forgot_password_screen.dart';
+import 'package:weixin/views/home_screen.dart';
+import 'package:weixin/views/registration_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_chat_application/utils/loading_dialog.dart';
+import 'package:weixin/utils/loading_dialog.dart';
 import 'package:another_flushbar/flushbar.dart';
-import 'package:firebase_chat_application/viewmodels/login_view_model.dart';
+import 'package:weixin/viewmodels/login_view_model.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {

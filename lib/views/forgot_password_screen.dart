@@ -1,4 +1,4 @@
-import 'package:firebase_chat_application/views/login_screen.dart';
+import 'package:weixin/views/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:another_flushbar/flushbar.dart';

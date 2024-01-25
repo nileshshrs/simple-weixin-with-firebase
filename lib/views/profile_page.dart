@@ -1,6 +1,6 @@
-import 'package:firebase_chat_application/repositories/chat_repository.dart';
-import 'package:firebase_chat_application/views/chat_screen.dart';
-import 'package:firebase_chat_application/views/home_screen.dart';
+import 'package:weixin/repositories/chat_repository.dart';
+import 'package:weixin/views/chat_screen.dart';
+import 'package:weixin/views/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/user_model.dart';

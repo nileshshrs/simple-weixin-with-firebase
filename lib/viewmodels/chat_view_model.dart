@@ -1,9 +1,9 @@
 // chat_view_model.dart
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_chat_application/models/user_model.dart';
-import 'package:firebase_chat_application/repositories/chat_repository.dart';
-import 'package:firebase_chat_application/viewmodels/login_view_model.dart';
+import 'package:weixin/models/user_model.dart';
+import 'package:weixin/repositories/chat_repository.dart';
+import 'package:weixin/viewmodels/login_view_model.dart';
 
 class ChatViewModel {
   String loggedInUserId = '';

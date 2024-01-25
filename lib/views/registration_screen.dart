@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_chat_application/utils/loading_dialog.dart';
+import 'package:weixin/utils/loading_dialog.dart';
 import 'package:another_flushbar/flushbar.dart';
-import 'package:firebase_chat_application/viewmodels/registration_view_model.dart';
-import 'package:firebase_chat_application/views/login_screen.dart';
+import 'package:weixin/viewmodels/registration_view_model.dart';
+import 'package:weixin/views/login_screen.dart';
 import 'package:provider/provider.dart';
 
 class RegistrationScreen extends StatefulWidget {

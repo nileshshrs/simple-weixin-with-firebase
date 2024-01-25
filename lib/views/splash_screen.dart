@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:firebase_chat_application/viewmodels/login_view_model.dart';
-import 'package:firebase_chat_application/views/login_screen.dart';
+import 'package:weixin/viewmodels/login_view_model.dart';
+import 'package:weixin/views/login_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_chat_application/views/home_screen.dart';
+import 'package:weixin/views/home_screen.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {

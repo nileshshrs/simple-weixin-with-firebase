@@ -1,7 +1,7 @@
 // chat_list_repository.dart
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_chat_application/models/chat_room_info.dart';
+import 'package:weixin/models/chat_room_info.dart';
 
 class ChatListRepository {
   late StreamController<List<ChatInfoModel>> _chatRoomsController;

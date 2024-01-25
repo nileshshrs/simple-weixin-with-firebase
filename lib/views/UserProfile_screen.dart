@@ -7,8 +7,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:firebase_chat_application/models/user_model.dart';
-import 'package:firebase_chat_application/viewmodels/login_view_model.dart';
+import 'package:weixin/models/user_model.dart';
+import 'package:weixin/viewmodels/login_view_model.dart';
 
 
 class UserProfilePage extends StatefulWidget {

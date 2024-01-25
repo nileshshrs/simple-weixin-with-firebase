@@ -1,6 +1,6 @@
 // lib/views/search_page.dart
 import 'dart:async';
-import 'package:firebase_chat_application/views/profile_page.dart';
+import 'package:weixin/views/profile_page.dart';
 import 'package:flutter/material.dart';
 import '../models/user_model.dart';
 import '../viewmodels/search_view_model.dart';
