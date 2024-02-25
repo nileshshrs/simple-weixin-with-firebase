@@ -24,6 +24,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   bool _isPasswordValid = false;
   bool _isConfirmPasswordValid = false;
 
+  bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
+
   void _updateUsernameValidity(String value) {
     setState(() {
       _isUsernameValid = value.length >= 3;
@@ -222,7 +225,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         TextFormField(
                                           controller: _passwordController,
                                           onChanged: _updatePasswordValidity,
-                                          obscureText: true,
+                                          obscureText: !_isPasswordVisible,
                                           decoration: InputDecoration(
                                             labelText: 'Password',
                                             labelStyle: TextStyle(
@@ -240,10 +243,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                             ),
                                             suffixIcon: GestureDetector(
                                               onTap: () {
-                                                // Toggle visibility of the password
+                                                setState(() {
+                                                  _isPasswordVisible =
+                                                  !_isPasswordVisible;
+                                                });
                                               },
                                               child: Icon(
-                                                Icons.visibility,
+                                                _isPasswordVisible
+                                                    ? Icons.visibility
+                                                    : Icons.visibility_off,
                                                 color: Color(0xFF3EB575),
                                               ),
                                             ),
@@ -261,8 +269,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         SizedBox(height: 16),
                                         TextFormField(
                                           controller: _confirmPasswordController,
-                                          onChanged: _updateConfirmPasswordValidity,
-                                          obscureText: true,
+                                          onChanged:
+                                          _updateConfirmPasswordValidity,
+                                          obscureText: !_isConfirmPasswordVisible,
                                           decoration: InputDecoration(
                                             labelText: 'Confirm Password',
                                             labelStyle: TextStyle(
@@ -280,10 +289,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                             ),
                                             suffixIcon: GestureDetector(
                                               onTap: () {
-                                                // Toggle visibility of the confirm password
+                                                setState(() {
+                                                  _isConfirmPasswordVisible =
+                                                  !_isConfirmPasswordVisible;
+                                                });
                                               },
                                               child: Icon(
-                                                Icons.visibility,
+                                                _isConfirmPasswordVisible
+                                                    ? Icons.visibility
+                                                    : Icons.visibility_off,
                                                 color: Color(0xFF3EB575),
                                               ),
                                             ),
@@ -303,7 +317,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                           width: double.infinity,
                                           child: OutlinedButton(
                                             onPressed: () async {
-                                              if (_formKey.currentState?.validate() == true) {
+                                              if (_formKey.currentState
+                                                  ?.validate() ==
+                                                  true) {
                                                 LoadingDialog.showLoadingDialog(
                                                     context, "Registering...");
 
@@ -339,7 +355,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                 } else {
                                                   _showFlushbar(
                                                       context,
-                                                      "Registration failed",
+                                                      "Registration failed: Invalid email. Please try again!",
                                                       false);
                                                   // Registration failed, handle accordingly
                                                 }

@@ -63,7 +63,7 @@ class _ChatListView extends StatelessWidget {
           stream: viewModel.chatRoomsStream,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF3EB575))));
             }
 
             if (snapshot.hasError) {

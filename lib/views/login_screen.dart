@@ -1,25 +1,29 @@
-// lib/views/login_screen.dart
+import 'package:flutter/material.dart';
+import 'package:another_flushbar/flushbar.dart';
+import 'package:provider/provider.dart';
 import 'package:weixin/models/user_model.dart';
+import 'package:weixin/utils/loading_dialog.dart';
+import 'package:weixin/viewmodels/login_view_model.dart';
 import 'package:weixin/views/forgot_password_screen.dart';
 import 'package:weixin/views/home_screen.dart';
 import 'package:weixin/views/registration_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:weixin/utils/loading_dialog.dart';
-import 'package:another_flushbar/flushbar.dart';
-import 'package:weixin/viewmodels/login_view_model.dart';
-import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const String routeName = "/login";
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isPasswordVisible = false;
 
   void _showFlushbar(BuildContext context, String message, bool isSuccess) {
     if (isSuccess) {
-      // If login is successful, navigate to the HomeScreen directly
       Navigator.pushReplacementNamed(context, HomeScreen.routeName);
     } else {
-      // If not successful, show the Flushbar
       Flushbar(
         message: message,
         duration: Duration(seconds: 5),
@@ -39,8 +43,6 @@ class LoginScreen extends StatelessWidget {
       )..show(context);
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +156,7 @@ class LoginScreen extends StatelessWidget {
                                     Expanded(
                                       child: TextField(
                                         controller: _passwordController,
-                                        obscureText: true,
+                                        obscureText: !_isPasswordVisible,
                                         decoration: InputDecoration(
                                           labelText: 'Password',
                                           labelStyle: TextStyle(
@@ -166,10 +168,15 @@ class LoginScreen extends StatelessWidget {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        // Toggle visibility of the password
+                                        setState(() {
+                                          // Toggle visibility of the password
+                                          _isPasswordVisible = !_isPasswordVisible;
+                                        });
                                       },
                                       child: Icon(
-                                        Icons.visibility,
+                                        _isPasswordVisible
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
                                         color: Color(0xFF3EB575),
                                       ),
                                     ),
@@ -179,8 +186,6 @@ class LoginScreen extends StatelessWidget {
                               SizedBox(height: 30),
                               GestureDetector(
                                 onTap: () {
-                                  // Implement the logic for password reset here
-                                  // You can navigate to a new screen or show a dialog for password reset
                                   print("Forgot Password tapped!");
                                   Navigator.pushNamed(
                                     context,
@@ -209,10 +214,10 @@ class LoginScreen extends StatelessWidget {
                                     bool success = await context
                                         .read<LoginViewModel>()
                                         .loginUser(
-                                          email: _emailController.text.trim(),
-                                          password:
-                                              _passwordController.text.trim(),
-                                        );
+                                      email: _emailController.text.trim(),
+                                      password:
+                                      _passwordController.text.trim(),
+                                    );
 
                                     LoadingDialog.hideLoadingDialog(context);
 
@@ -225,14 +230,12 @@ class LoginScreen extends StatelessWidget {
                                       UserModel? userData =
                                       await context.read<LoginViewModel>().getUserDataFromPreferences();
                                       print("User Data: $userData");
-                                      // Navigate to the home screen or perform other actions
                                     } else {
                                       _showFlushbar(
                                         context,
                                         "Incorrect email or password",
                                         false,
                                       );
-                                      // Handle login failure
                                     }
                                   },
                                   style: OutlinedButton.styleFrom(
@@ -260,7 +263,6 @@ class LoginScreen extends StatelessWidget {
                       Center(
                         child: GestureDetector(
                           onTap: () {
-                            // Navigate to the registration page
                             Navigator.pushNamed(
                               context,
                               RegistrationScreen.routeName,
