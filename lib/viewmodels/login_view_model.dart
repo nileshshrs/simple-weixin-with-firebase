@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
@@ -30,6 +33,7 @@ class LoginViewModel extends ChangeNotifier {
 
       if (user != null) {
         await _saveUserDataToPreferences(user);
+
         return true;
       } else {
         return false;
@@ -89,6 +93,8 @@ class LoginViewModel extends ChangeNotifier {
   }
 
   Future<void> _saveUserDataToPreferences(UserModel user) async {
+
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('userId', user.id);
     prefs.setString('username', user.username);
@@ -115,6 +121,12 @@ class LoginViewModel extends ChangeNotifier {
           createdAt: user.createdAt,
           image: newImageUrl, // Update the image field with the new URL
         );
+
+        final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+        _firestore.collection('users').doc(user.id).update({"image":newImageUrl});
+
+
+
 
         // Update the image URL in SharedPreferences
         await _saveUserDataToPreferences(updatedUser);

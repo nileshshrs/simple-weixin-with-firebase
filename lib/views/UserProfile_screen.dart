@@ -49,7 +49,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
     } else {
       setState(() {
         image = File(selected.path);
-        print(image!.path.split('/'));
         saveToStorage();
       });
     }
@@ -74,7 +73,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
       // Get the download URL
       String tempUrl = await storageReference.getDownloadURL();
-
+      print("download url:::${tempUrl}");
       // Update the profile picture URL in LoginViewModel
       await LoginViewModel().updateProfilePicture(tempUrl);
 
@@ -203,16 +202,21 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            image: DecorationImage(
-                              image: NetworkImage(user.image),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                        Builder(
+                          builder: (context) {
+                            print("IMAGE:::::::::${user.image}");
+                            return Container(
+                              width: 100,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                image: DecorationImage(
+                                  image: NetworkImage(user.image),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            );
+                          }
                         ),
                         SizedBox(
                           width: 16,
